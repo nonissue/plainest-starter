@@ -88,7 +88,6 @@ function App() {
       <div>
         <Switch>
           <Route exact path="/">
-            {!error && 'Error!'}
             {posts ? (
               posts.map(post => (
                 <div key={post.id}>
