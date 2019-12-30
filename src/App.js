@@ -1,9 +1,10 @@
 import { Route, Switch } from 'react-router-dom';
 import React from 'react';
 import styled from 'styled-components';
+import useAxios from './lib/useAxios';
 
 import './App.css';
-import { Error as ErrorPage, Header } from './components';
+import { Error as ErrorPage, Header, Loading } from './components';
 import { About } from './pages';
 
 /*
@@ -46,7 +47,7 @@ const AppWrapper = styled.div`
     font-family: 'Lekton', monospace;
     text-transform: uppercase;
     animation: fadein 1s;
-    animation-delay: 1.5s;
+    animation-delay: 3s;
     animation-fill-mode: forwards;
   }
 
@@ -70,16 +71,34 @@ ABOVE the existing post grid.
 Issues: How we do serve 404 whne a visit to /post/:id isn't a valid post?
 
 */
+
 function App() {
-  const defaultError = { code: 500, msg: 'An unexpected error occurred!' };
+  const url = {
+    url: '/.netlify/functions/posts-fetch-all',
+  };
+
+  const { data: posts, loading, error } = useAxios(url);
+  console.log(loading);
+  console.log(error);
+  console.log(posts);
 
   return (
     <AppWrapper>
       <Header />
       <div>
         <Switch>
-          <Route path="/">
-            <h1>Homepage</h1>
+          <Route exact path="/">
+            {!error && 'Error!'}
+            {posts ? (
+              posts.map(post => (
+                <div key={post.id}>
+                  <h3>{post.title}</h3>
+                  <p>{post.content}</p>
+                </div>
+              ))
+            ) : (
+              <Loading />
+            )}
           </Route>
           <Route path="/about">
             <About />
