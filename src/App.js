@@ -3,7 +3,7 @@ import React from 'react';
 import styled from 'styled-components';
 
 import './App.css';
-import { Error as ErrorPage, Grid, Header } from './components';
+import { Error as ErrorPage, Header } from './components';
 import { About } from './pages';
 
 /*
@@ -78,15 +78,13 @@ function App() {
       <Header />
       <div>
         <Switch>
-          {/* eslint-disable-next-line react/jsx-props-no-spreading */}
-          <Route exact path={['/posts/:id', '/']} component={props => <Grid {...props} />} />
+          <Route path="/">
+            <h1>Homepage</h1>
+          </Route>
           <Route path="/about">
             <About />
           </Route>
-          <Route exact path={['/error', '/error/:id']}>
-            <ErrorPage error={defaultError} />
-          </Route>
-          <Route path="*">
+          <Route>
             <ErrorPage error={{ code: 404, msg: 'Page not found!' }} />
           </Route>
         </Switch>
