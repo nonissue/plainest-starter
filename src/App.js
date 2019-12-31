@@ -107,22 +107,34 @@ function App() {
 function Posts({ posts }) {
   return (
     <StyledPosts>
-      {posts ? (
-        posts.map(post => (
-          <div key={post.id}>
-            <h3>{post.title}</h3>
-            <h4>by {post.userId}</h4>
-            <p>{post.content}</p>
-          </div>
-        ))
-      ) : (
-        <Loading />
-      )}
+      {posts ? posts.map(post => <Post key={post.id} {...post} />) : <Loading />}
     </StyledPosts>
   );
 }
 
+function Post({ id, title, userId, body }) {
+  const { data: user } = useAxios({ url: `/.netlify/functions/users-fetch-mock/${userId}` });
+
+  return (
+    <StyledPost>
+      {user ? (
+        <>
+          <h3>{title}</h3>
+          <h4>by {user.name}</h4>
+          <p>{body}</p>
+        </>
+      ) : (
+        <Loading />
+      )}
+    </StyledPost>
+  );
+}
+
 const StyledPosts = styled.div`
+  /* text-align: left; */
+`;
+
+const StyledPost = styled.div`
   text-align: left;
 `;
 
