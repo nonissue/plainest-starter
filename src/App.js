@@ -28,15 +28,6 @@ const AppWrapper = styled.div`
   color: #032d4d;
   font-family: 'Work Sans';
 
-  .url {
-    font-weight: 300;
-    display: inline;
-    padding: 3px 6px;
-    letter-spacing: 0.15em;
-    font-size: 0.45em;
-    border-radius: 0.25em;
-  }
-
   .footer {
     opacity: 0;
     padding: 5px 0 5px 0;
@@ -79,10 +70,6 @@ function App() {
   };
 
   const { data: posts, loading, error } = useAxios(url);
-
-  // console.log(loading);
-  // console.log(error);
-  // console.log(posts);
 
   return (
     <AppWrapper>
