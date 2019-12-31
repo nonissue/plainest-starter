@@ -100,7 +100,7 @@ function App() {
           </Route>
         </Switch>
       </div>
-      <div className="footer">Copyright 2019 © plainsite</div>
+      <div className="footer">Copyright 2019 © yoursite</div>
     </AppWrapper>
   );
 }
@@ -131,9 +131,9 @@ function Post({ id, title, userId, body }) {
   }
   return (
     <StyledPost>
-      <h3>{title}</h3>
-      <h4>by {user.name}</h4>
-      <p>{body}</p>
+      <h2>{title}</h2>
+      <h4>— by {user.name}</h4>
+      {/* <p>{body}</p> */}
     </StyledPost>
   );
 }
@@ -147,12 +147,14 @@ const StyledPosts = styled.div`
 const StyledPost = styled.div`
   text-align: left;
   line-height: 1.6em;
-  margin-bottom: 2em;
-  h3 {
-    font-weight: 500;
+  margin-bottom: 3em;
+  h2 {
+    font-weight: 700;
     text-transform: capitalize;
-    line-height: 1.6em;
-    margin-bottom: 0;
+    line-height: 1.3em;
+    margin-bottom: 0.25em;
+    letter-spacing: -0.03em;
+    max-width: 80%;
   }
   h4 {
     font-weight: 400;
@@ -160,6 +162,11 @@ const StyledPost = styled.div`
     font-family: 'Lekton';
     padding: 0;
     margin: 0;
+    color: #555;
+    margin-left: 0.5em;
+  }
+  p {
+    font-size: 0.95em;
   }
 `;
 
