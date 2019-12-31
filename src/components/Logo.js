@@ -67,10 +67,10 @@ export function Logo() {
     <LogoWrapper>
       <>
         <h1>
-          <Link to="/">plainest site</Link>
+          <Link to="/">Starter</Link>
         </h1>
         <h3>
-          <a href="https://instagram.com/plainestsite">plainestsite</a>
+          <a href="https://instagram.com/yourinstagram">yourinstagram</a>
         </h3>
       </>
     </LogoWrapper>

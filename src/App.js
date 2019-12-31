@@ -74,10 +74,11 @@ Issues: How we do serve 404 whne a visit to /post/:id isn't a valid post?
 
 function App() {
   const url = {
-    url: '/.netlify/functions/posts-fetch-all',
+    url: '/.netlify/functions/posts-fetch-all-mock',
   };
 
   const { data: posts, loading, error } = useAxios(url);
+
   console.log(loading);
   console.log(error);
   console.log(posts);
@@ -88,16 +89,7 @@ function App() {
       <div>
         <Switch>
           <Route exact path="/">
-            {posts ? (
-              posts.map(post => (
-                <div key={post.id}>
-                  <h3>{post.title}</h3>
-                  <p>{post.content}</p>
-                </div>
-              ))
-            ) : (
-              <Loading />
-            )}
+            <Posts posts={posts} />
           </Route>
           <Route path="/about">
             <About />
@@ -111,5 +103,27 @@ function App() {
     </AppWrapper>
   );
 }
+
+function Posts({ posts }) {
+  return (
+    <StyledPosts>
+      {posts ? (
+        posts.map(post => (
+          <div key={post.id}>
+            <h3>{post.title}</h3>
+            <h4>by {post.userId}</h4>
+            <p>{post.content}</p>
+          </div>
+        ))
+      ) : (
+        <Loading />
+      )}
+    </StyledPosts>
+  );
+}
+
+const StyledPosts = styled.div`
+  text-align: left;
+`;
 
 export default App;
