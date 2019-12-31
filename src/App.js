@@ -26,6 +26,7 @@ darkmode lightmode?
 const AppWrapper = styled.div`
   text-align: center;
   color: #032d4d;
+  font-family: 'Work Sans';
 
   .url {
     font-weight: 300;
@@ -79,9 +80,9 @@ function App() {
 
   const { data: posts, loading, error } = useAxios(url);
 
-  console.log(loading);
-  console.log(error);
-  console.log(posts);
+  // console.log(loading);
+  // console.log(error);
+  // console.log(posts);
 
   return (
     <AppWrapper>
@@ -107,35 +108,59 @@ function App() {
 function Posts({ posts }) {
   return (
     <StyledPosts>
-      {posts ? posts.map(post => <Post key={post.id} {...post} />) : <Loading />}
+      {posts ? posts.map(post => <Post key={post.id} {...post} />) : 'Loading'}
     </StyledPosts>
   );
 }
 
+/*
+Tests:
+* check that error renders error comp
+* check that loading renders loading comp
+*/
 function Post({ id, title, userId, body }) {
-  const { data: user } = useAxios({ url: `/.netlify/functions/users-fetch-mock/${userId}` });
+  const { data: user, loading, error } = useAxios({
+    url: `/.netlify/functions/users-fetch-mock/${userId}`,
+  });
 
+  if (error) {
+    return <h3>Error loading post!</h3>;
+  }
+  if (loading) {
+    return <Loading />;
+  }
   return (
     <StyledPost>
-      {user ? (
-        <>
-          <h3>{title}</h3>
-          <h4>by {user.name}</h4>
-          <p>{body}</p>
-        </>
-      ) : (
-        <Loading />
-      )}
+      <h3>{title}</h3>
+      <h4>by {user.name}</h4>
+      <p>{body}</p>
     </StyledPost>
   );
 }
 
 const StyledPosts = styled.div`
   /* text-align: left; */
+  max-width: 600px;
+  margin: 0 auto;
 `;
 
 const StyledPost = styled.div`
   text-align: left;
+  line-height: 1.6em;
+  margin-bottom: 2em;
+  h3 {
+    font-weight: 500;
+    text-transform: capitalize;
+    line-height: 1.6em;
+    margin-bottom: 0;
+  }
+  h4 {
+    font-weight: 400;
+    text-transform: uppercase;
+    font-family: 'Lekton';
+    padding: 0;
+    margin: 0;
+  }
 `;
 
 export default App;
