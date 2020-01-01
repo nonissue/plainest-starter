@@ -4,8 +4,8 @@ import styled from 'styled-components';
 import useAxios from './lib/useAxios';
 
 import './App.css';
-import { Error as ErrorPage, Header, Loading } from './components';
-import { About, PostListItem, PostPage } from './pages';
+import { Error as ErrorPage, Header, Loading, PostListItem } from './components';
+import { About, PostPage } from './pages';
 
 /*
 
@@ -70,9 +70,6 @@ Issues: How we do serve 404 whne a visit to /post/:id isn't a valid post?
 */
 
 function App() {
-  // console.log(typeof useAxios(url));
-  // console.log(posts);
-
   return (
     <AppWrapper>
       <Header />
@@ -115,35 +112,26 @@ function Posts() {
   );
 }
 
-/*
-Tests:
-* check that error renders error comp
-* check that loading renders loading comp
-*/
-// function Post({ id, title, userId, body }) {
-//   const { data: user, loading, error } = useAxios({
-//     url: `/.netlify/functions/users-fetch-mock/${userId}`,
-//   });
-
-//   if (error) {
-//     return <h3>Error loading post!</h3>;
-//   }
-//   if (loading) {
-//     return <Loading />;
-//   }
-//   return (
-//     <StyledPost>
-//       <h2>{title}</h2>
-//       <h4>— by {user.name}</h4>
-//       {/* <p>{body}</p> */}
-//     </StyledPost>
-//   );
-// }
-
 const StyledPosts = styled.div`
-  /* text-align: left; */
   max-width: 600px;
   margin: 0 auto;
+
+  div:first-child {
+    margin-bottom: 4em;
+    h2 {
+      font-size: 2.5em;
+      font-weight: 800;
+      line-height: 1.2em;
+      text-align: center;
+      letter-spacing: -0.02em;
+    }
+    h4 {
+      text-align: center;
+      margin-left: 0;
+      margin-top: 1em;
+      font-size: 1.2em;
+    }
+  }
 `;
 
 export default App;

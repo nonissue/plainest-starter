@@ -2,7 +2,12 @@ import React from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import useAxios from '../lib/useAxios';
-// type AboutProps = { message: string }; /* could also use interface */
+
+/*
+Tests:
+* check that error renders error comp
+* check that loading renders loading comp
+*/
 
 type PostProps = {
   id: number;
@@ -14,26 +19,23 @@ type PostProps = {
 const StyledPost = styled.div`
   text-align: left;
   line-height: 1.6em;
-  margin-bottom: 3em;
+  margin-bottom: 1.25em;
+
   h2 {
     font-weight: 600;
     font-size: 1.2em;
     text-transform: capitalize;
     line-height: 1.5em;
-    /* margin-bottom: 0.25em; */
     margin-bottom: 0;
     letter-spacing: -0.03em;
-    max-width: 80%;
   }
   h4 {
     font-weight: 300;
     text-transform: uppercase;
-    /* font-family: 'Lekton'; */
     padding: 0;
     font-size: 0.9em;
     margin: 0;
     color: #555;
-    /* margin-left: 0.5em; */
   }
   p {
     font-size: 0.95em;

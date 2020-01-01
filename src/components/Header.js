@@ -6,15 +6,13 @@ import { AiOutlineLeft as Back, AiOutlineQuestionCircle as Question } from 'reac
 import { Logo } from './Logo';
 
 const StyledHeader = styled.header`
-  /* box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.06); */
-
   position: sticky;
   top: 0;
   z-index: 1;
-  background: hsla(100, 0%, 100%, 0.95);
+  background: hsla(100, 0%, 100%, 0.7);
 
-  -webkit-backdrop-filter: blur(20px);
-  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(5px);
+  backdrop-filter: blur(5px);
   animation: fadein 0.3s;
   font-size: calc(12px + 1.5vmin);
   border: 0px solid #ccc;
@@ -46,7 +44,6 @@ const StyledHeader = styled.header`
 
     a:hover {
       opacity: 1;
-      /* color: #333; */
       color: #0f72bd;
     }
   }
