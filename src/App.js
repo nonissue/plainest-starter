@@ -107,6 +107,7 @@ function Posts() {
 
   return (
     <StyledPosts>
+      {/* eslint-disable-next-line react/jsx-props-no-spreading */}
       {!loading ? posts.map(post => <PostListItem key={post.id} {...post} />) : <Loading />}
     </StyledPosts>
   );

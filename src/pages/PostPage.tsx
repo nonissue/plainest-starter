@@ -37,10 +37,22 @@ const StyledPost = styled.div`
   }
 `;
 
+type PostState = {
+  title: string;
+  id: number;
+  body: string;
+  userId: number;
+};
+
+type AuthorState = {
+  name: string;
+};
+
 export const PostPage: React.FC = () => {
+  // eslint-disable-next-line prefer-const
   let { id } = useParams();
-  const [post, setPost] = useState();
-  const [author, setAuthor] = useState();
+  const [post, setPost] = useState<PostState>();
+  const [author, setAuthor] = useState<AuthorState>();
 
   useEffect(() => {
     async function getData() {
@@ -54,7 +66,6 @@ export const PostPage: React.FC = () => {
         `/.netlify/functions/users-fetch-one/${res.userId}`,
       );
 
-      // post = res;
       setAuthor(postAuthor);
       setPost(res);
     }
@@ -66,7 +77,7 @@ export const PostPage: React.FC = () => {
       {post && author ? (
         <>
           <h2>
-            <Link to={`/posts/${id}`}>{post.title}</Link>
+            <Link to={`/posts/${post.id}`}>{post.title}</Link>
           </h2>
           <h4>— by {author ? author.name : 'Loading'}</h4>
           <p>{post.body}</p>
