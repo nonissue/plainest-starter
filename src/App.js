@@ -5,7 +5,7 @@ import useAxios from './lib/useAxios';
 
 import './App.css';
 import { Error as ErrorPage, Header, Loading } from './components';
-import { About } from './pages';
+import { About, Post } from './pages';
 
 /*
 
@@ -105,25 +105,25 @@ Tests:
 * check that error renders error comp
 * check that loading renders loading comp
 */
-function Post({ id, title, userId, body }) {
-  const { data: user, loading, error } = useAxios({
-    url: `/.netlify/functions/users-fetch-mock/${userId}`,
-  });
+// function Post({ id, title, userId, body }) {
+//   const { data: user, loading, error } = useAxios({
+//     url: `/.netlify/functions/users-fetch-mock/${userId}`,
+//   });
 
-  if (error) {
-    return <h3>Error loading post!</h3>;
-  }
-  if (loading) {
-    return <Loading />;
-  }
-  return (
-    <StyledPost>
-      <h2>{title}</h2>
-      <h4>— by {user.name}</h4>
-      {/* <p>{body}</p> */}
-    </StyledPost>
-  );
-}
+//   if (error) {
+//     return <h3>Error loading post!</h3>;
+//   }
+//   if (loading) {
+//     return <Loading />;
+//   }
+//   return (
+//     <StyledPost>
+//       <h2>{title}</h2>
+//       <h4>— by {user.name}</h4>
+//       {/* <p>{body}</p> */}
+//     </StyledPost>
+//   );
+// }
 
 const StyledPosts = styled.div`
   /* text-align: left; */
