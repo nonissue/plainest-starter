@@ -4,8 +4,8 @@ import styled from 'styled-components';
 import useAxios from './lib/useAxios';
 
 import './App.css';
-import { Error as ErrorPage, Header, Loading } from './components';
-import { About, Post } from './pages';
+import { Error as ErrorPage, Header } from './components';
+import { About, PostListItem } from './pages';
 
 /*
 
@@ -95,7 +95,7 @@ function App() {
 function Posts({ posts }) {
   return (
     <StyledPosts>
-      {posts ? posts.map(post => <Post key={post.id} {...post} />) : 'Loading'}
+      {posts ? posts.map(post => <PostListItem key={post.id} {...post} />) : 'Loading'}
     </StyledPosts>
   );
 }

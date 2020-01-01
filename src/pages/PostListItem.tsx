@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 import useAxios from '../lib/useAxios';
 // type AboutProps = { message: string }; /* could also use interface */
 
@@ -36,7 +37,7 @@ const StyledPost = styled.div`
   }
 `;
 
-export const Post: React.FC<PostProps> = ({ id, title, userId, body }: PostProps) => {
+export const PostListItem: React.FC<PostProps> = ({ id, title, userId }: PostProps) => {
   const { data: user, loading, error } = useAxios({
     url: `/.netlify/functions/users-fetch-mock/${userId}`,
   });
@@ -49,11 +50,12 @@ export const Post: React.FC<PostProps> = ({ id, title, userId, body }: PostProps
   }
   return (
     <StyledPost>
-      <h2>{title}</h2>
+      <h2>
+        <Link to={`/posts/${id}`}>{title}</Link>
+      </h2>
       <h4>— by {user.name}</h4>
-      {/* <p>{body}</p> */}
     </StyledPost>
   );
 };
 
-export default Post;
+export default PostListItem;
