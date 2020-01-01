@@ -1,10 +1,7 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
-import { motion } from 'framer-motion';
 import styled from 'styled-components';
 
 const AboutWrapper = styled.div`
-  /* color: #121212;*/
   color: #032d4d;
   width: 50vw;
   margin: 0px auto;
@@ -16,10 +13,8 @@ const AboutWrapper = styled.div`
   font-family: 'Lekton', monospace;
 
   h3 {
-    /* font-family: 'Open Sans'; */
     font-family: 'Bebas Neue', 'Helvetica', sans-serif;
     font-weight: 400;
-    /* text-transform: uppercase; */
     letter-spacing: 0.1em;
     text-align: center;
   }
@@ -47,21 +42,6 @@ const AboutWrapper = styled.div`
     text-decoration-color: transparent;
   }
 `;
-
-const variants = {
-  enter: {
-    opacity: 1,
-    transition: {
-      // delay: 0.1,
-      duration: 0.2,
-    },
-  },
-  exit: {
-    opacity: 1,
-  },
-};
-
-// type AboutProps = { message: string }; /* could also use interface */
 
 export const About: React.FunctionComponent = () => {
   return (

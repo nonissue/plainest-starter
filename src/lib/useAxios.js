@@ -80,12 +80,6 @@ export default function useAxios(args) {
   return state;
 }
 
-// const ASYNC_STATES = {
-//   loading: 0,
-//   success: 1,
-//   error: 2,
-// };
-
 function asyncAxiosReducer(state, action) {
   switch (action.type) {
     case STATES.loading:
