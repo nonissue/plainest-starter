@@ -5,7 +5,7 @@ import useAxios from './lib/useAxios';
 
 import './App.css';
 import { Error as ErrorPage, Header } from './components';
-import { About, PostListItem } from './pages';
+import { About, PostListItem, PostPage } from './pages';
 
 /*
 
@@ -78,6 +78,9 @@ function App() {
         <Switch>
           <Route exact path="/">
             <Posts posts={posts} />
+          </Route>
+          <Route path="/posts/:id">
+            <PostPage />
           </Route>
           <Route path="/about">
             <About />
