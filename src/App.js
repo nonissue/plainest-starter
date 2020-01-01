@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import useAxios from './lib/useAxios';
 
 import './App.css';
-import { Error as ErrorPage, Header } from './components';
+import { Error as ErrorPage, Header, Loading } from './components';
 import { About, PostListItem, PostPage } from './pages';
 
 /*
@@ -27,6 +27,11 @@ const AppWrapper = styled.div`
   text-align: center;
   color: #032d4d;
   font-family: 'Work Sans';
+
+  a {
+    text-decoration: none;
+    color: #333;
+  }
 
   .footer {
     opacity: 0;
@@ -82,7 +87,6 @@ function App() {
             <Posts posts={posts} />
           </Route>
           <Route path="/posts/:id" component={PostPage}>
-            PostPage
             <PostPage />
           </Route>
           <Route path="/about">
@@ -101,7 +105,7 @@ function App() {
 function Posts({ posts }) {
   return (
     <StyledPosts>
-      {posts ? posts.map(post => <PostListItem key={post.id} {...post} />) : 'Loading'}
+      {posts ? posts.map(post => <PostListItem key={post.id} {...post} />) : <Loading />}
     </StyledPosts>
   );
 }

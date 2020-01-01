@@ -3,16 +3,18 @@ import styled from 'styled-components';
 import axios from 'axios';
 import { Link, useParams } from 'react-router-dom';
 
-import useAxios from '../lib/useAxios';
+// import useAxios from '../lib/useAxios';
 
-type PostProps = {
-  idz: number;
-};
+// type PostProps = {
+//   idz: number;
+// };
 
 const StyledPost = styled.div`
   text-align: left;
   line-height: 1.6em;
   margin-bottom: 3em;
+  max-width: 600px;
+  margin: 0 auto;
   h2 {
     font-weight: 700;
     text-transform: capitalize;
@@ -35,17 +37,17 @@ const StyledPost = styled.div`
   }
 `;
 
-export const PostPage: React.FC<PostProps> = ({ idz }: PostProps) => {
+export const PostPage: React.FC = () => {
   let { id } = useParams();
   const [post, setPost] = useState();
   const [author, setAuthor] = useState();
 
-  async function getData() {
-    const fetchedPost = await axios.get(`/.netlify/functions/posts-fetch-one/${id}`);
-    return fetchedPost;
-  }
-
   useEffect(() => {
+    async function getData() {
+      const fetchedPost = await axios.get(`/.netlify/functions/posts-fetch-one/${id}`);
+      return fetchedPost;
+    }
+
     async function init() {
       const { data: res } = await getData();
       const { data: postAuthor } = await axios.get(
@@ -57,9 +59,7 @@ export const PostPage: React.FC<PostProps> = ({ idz }: PostProps) => {
       setPost(res);
     }
     init();
-  }, []);
-
-  const user = null;
+  }, [id]);
 
   return (
     <StyledPost>
@@ -72,7 +72,7 @@ export const PostPage: React.FC<PostProps> = ({ idz }: PostProps) => {
           <p>{post.body}</p>
         </>
       ) : (
-        'Loading'
+        <></>
       )}
     </StyledPost>
   );

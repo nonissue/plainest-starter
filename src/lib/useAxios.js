@@ -46,12 +46,6 @@ export default function useAxios(args) {
 
     dispatch({ type: STATES.loading });
 
-    const start = async () => {
-      try {
-        const result = await axios(args.url);
-      }
-    };
-
     // async function start() {
     axios({
       ...args,
@@ -105,7 +99,7 @@ function asyncAxiosReducer(state, action) {
   }
 }
 
-export default function useAxiosAsync(args) {
+export function useAxiosAsync(args) {
   const [state, dispatch] = useReducer(axiosReducer, initialState);
 
   useEffect(() => {
@@ -116,6 +110,8 @@ export default function useAxiosAsync(args) {
     const start = async () => {
       try {
         const result = await axios(args.url);
+      } catch (err) {
+        throw new Error(err);
       }
     };
 
