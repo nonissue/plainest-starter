@@ -70,6 +70,8 @@ function App() {
   };
 
   const { data: posts, loading, error } = useAxios(url);
+  // console.log(typeof useAxios(url));
+  // console.log(posts);
 
   return (
     <AppWrapper>
@@ -79,7 +81,8 @@ function App() {
           <Route exact path="/">
             <Posts posts={posts} />
           </Route>
-          <Route path="/posts/:id">
+          <Route path="/posts/:id" component={PostPage}>
+            PostPage
             <PostPage />
           </Route>
           <Route path="/about">

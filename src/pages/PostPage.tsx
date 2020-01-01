@@ -1,11 +1,12 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
+
 import useAxios from '../lib/useAxios';
 
 type PostProps = {
-  id: number;
+  idz: number;
 };
 
 const StyledPost = styled.div`
@@ -34,40 +35,40 @@ const StyledPost = styled.div`
   }
 `;
 
-export const PostPage: React.FC<PostProps> = ({ id }: PostProps) => {
-  const { data: post } = useAxios({
-    url: `/.netlify/functions/posts-fetch-one/${id}`,
-  });
+export const PostPage: React.FC<PostProps> = ({ idz }: PostProps) => {
+  let { id } = useParams();
+  const [post, setPost] = useState();
+  const [author, setAuthor] = useState();
 
-  let userData;
-
-  const fetchUserByPost = async (postId: number) => {
-    // if (post) {
-    const { data: user } = await axios(`/.netlify/functions/users-fetch-mock/${postId}`);
-    // }
-    return user;
-  };
-
-  if (post !== undefined) {
-    userData = fetchUserByPost(id);
-    console.log(userData);
+  async function getData() {
+    const fetchedPost = await axios.get(`/.netlify/functions/posts-fetch-one/${id}`);
+    return fetchedPost;
   }
 
-  // if (error) {
-  //   return <h3>Error loading post!</h3>;
-  // }
-  // if (loading) {
-  //   return <>Loading</>;
-  // }
+  useEffect(() => {
+    async function init() {
+      const { data: res } = await getData();
+      const { data: postAuthor } = await axios.get(
+        `/.netlify/functions/users-fetch-mock/${res.userId}`,
+      );
+
+      // post = res;
+      setAuthor(postAuthor);
+      setPost(res);
+    }
+    init();
+  }, []);
+
+  const user = null;
+
   return (
     <StyledPost>
-      {post && userData && 'test'}
-      {post ? (
+      {post && author ? (
         <>
           <h2>
             <Link to={`/posts/${id}`}>{post.title}</Link>
           </h2>
-          <h4>— by {userData ? userData : 'Loading'}</h4>
+          <h4>— by {author ? author.name : 'Loading'}</h4>
           <p>{post.body}</p>
         </>
       ) : (

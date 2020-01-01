@@ -46,6 +46,13 @@ export default function useAxios(args) {
 
     dispatch({ type: STATES.loading });
 
+    const start = async () => {
+      try {
+        const result = await axios(args.url);
+      }
+    };
+
+    // async function start() {
     axios({
       ...args,
       cancelToken: new axios.CancelToken(token => {
@@ -61,6 +68,7 @@ export default function useAxios(args) {
 
         dispatch({ type: STATES.error });
       });
+    // }
 
     return () => {
       if (cancelToken) {
@@ -73,5 +81,76 @@ export default function useAxios(args) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  console.log(state);
+
   return state;
 }
+
+// const ASYNC_STATES = {
+//   loading: 0,
+//   success: 1,
+//   error: 2,
+// };
+
+function asyncAxiosReducer(state, action) {
+  switch (action.type) {
+    case STATES.loading:
+      return { ...state, loading: true, error: false };
+    case STATES.error:
+      return { ...state, loading: false, error: true };
+    case STATES.success:
+      return { ...state, loading: false, error: false, data: action.payload };
+    default:
+      throw new Error();
+  }
+}
+
+export default function useAxiosAsync(args) {
+  const [state, dispatch] = useReducer(axiosReducer, initialState);
+
+  useEffect(() => {
+    let cancelToken = null;
+
+    dispatch({ type: STATES.loading });
+
+    const start = async () => {
+      try {
+        const result = await axios(args.url);
+      }
+    };
+
+    // async function start() {
+    axios({
+      ...args,
+      cancelToken: new axios.CancelToken(token => {
+        cancelToken = token;
+      }),
+    })
+      .then(({ data }) => {
+        cancelToken = null;
+        dispatch({ type: STATES.success, payload: data });
+      })
+      .catch(e => {
+        if (axios.isCancel(e)) return;
+
+        dispatch({ type: STATES.error });
+      });
+    // }
+
+    return () => {
+      if (cancelToken) {
+        cancelToken();
+      }
+    };
+    // The effect dependencies not being an array literal is a problem
+    // but I don't see immediate side effects, and there isn't an easy way to fix it AFAIK.we ony
+    // we only want this to run once anyway?
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  console.log(state);
+
+  return state;
+}
+
+// export function async useAxiosAsync =
