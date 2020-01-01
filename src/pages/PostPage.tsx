@@ -51,7 +51,7 @@ export const PostPage: React.FC = () => {
     async function init() {
       const { data: res } = await getData();
       const { data: postAuthor } = await axios.get(
-        `/.netlify/functions/users-fetch-mock/${res.userId}`,
+        `/.netlify/functions/users-fetch-one/${res.userId}`,
       );
 
       // post = res;

@@ -70,11 +70,6 @@ Issues: How we do serve 404 whne a visit to /post/:id isn't a valid post?
 */
 
 function App() {
-  const url = {
-    url: '/.netlify/functions/posts-fetch-all-mock',
-  };
-
-  const { data: posts, loading, error } = useAxios(url);
   // console.log(typeof useAxios(url));
   // console.log(posts);
 
@@ -84,7 +79,7 @@ function App() {
       <div>
         <Switch>
           <Route exact path="/">
-            <Posts posts={posts} />
+            <Posts />
           </Route>
           <Route path="/posts/:id" component={PostPage}>
             <PostPage />
@@ -102,10 +97,20 @@ function App() {
   );
 }
 
-function Posts({ posts }) {
+function Posts() {
+  const url = {
+    url: '/.netlify/functions/posts-fetch-all-mock',
+  };
+
+  const { data: posts, loading, error } = useAxios(url);
+
+  if (error) {
+    return 'Error!';
+  }
+
   return (
     <StyledPosts>
-      {posts ? posts.map(post => <PostListItem key={post.id} {...post} />) : <Loading />}
+      {!loading ? posts.map(post => <PostListItem key={post.id} {...post} />) : <Loading />}
     </StyledPosts>
   );
 }
@@ -139,32 +144,6 @@ const StyledPosts = styled.div`
   /* text-align: left; */
   max-width: 600px;
   margin: 0 auto;
-`;
-
-const StyledPost = styled.div`
-  text-align: left;
-  line-height: 1.6em;
-  margin-bottom: 3em;
-  h2 {
-    font-weight: 700;
-    text-transform: capitalize;
-    line-height: 1.3em;
-    margin-bottom: 0.25em;
-    letter-spacing: -0.03em;
-    max-width: 80%;
-  }
-  h4 {
-    font-weight: 400;
-    text-transform: uppercase;
-    font-family: 'Lekton';
-    padding: 0;
-    margin: 0;
-    color: #555;
-    margin-left: 0.5em;
-  }
-  p {
-    font-size: 0.95em;
-  }
 `;
 
 export default App;

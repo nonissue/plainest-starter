@@ -42,7 +42,7 @@ const StyledPost = styled.div`
 
 export const PostListItem: React.FC<PostProps> = ({ id, title, userId }: PostProps) => {
   const { data: user, loading, error } = useAxios({
-    url: `/.netlify/functions/users-fetch-mock/${userId}`,
+    url: `/.netlify/functions/users-fetch-one/${userId}`,
   });
 
   if (error) {
