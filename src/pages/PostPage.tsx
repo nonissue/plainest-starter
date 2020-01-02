@@ -3,12 +3,6 @@ import styled from 'styled-components';
 import axios from 'axios';
 import { Link, useParams } from 'react-router-dom';
 
-// import useAxios from '../lib/useAxios';
-
-// type PostProps = {
-//   idz: number;
-// };
-
 const StyledPost = styled.div`
   text-align: left;
   line-height: 1.6em;
