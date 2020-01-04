@@ -1,6 +1,22 @@
 import React from 'react';
 import styled from 'styled-components';
 
+export const About: React.FC = () => {
+  return (
+    <AboutWrapper>
+      <div className="about">
+        <h3>About</h3>
+        <p>
+          &quot;Boring photos of buildings&quot; <i>aka</i> &quot;A kuest for klout™️&quot; cooked
+          up sporadically by
+          <a href="https://www.instagram.com/christiandy/">@christiandy</a>
+          <a href="https://www.instagram.com/christiandy/">@nonissue</a>
+        </p>
+      </div>
+    </AboutWrapper>
+  );
+};
+
 const AboutWrapper = styled.div`
   color: #032d4d;
   width: 50vw;
@@ -42,21 +58,5 @@ const AboutWrapper = styled.div`
     text-decoration-color: transparent;
   }
 `;
-
-export const About: React.FunctionComponent = () => {
-  return (
-    <AboutWrapper>
-      <div className="about">
-        <h3>About</h3>
-        <p>
-          &quot;Boring photos of buildings&quot; <i>aka</i> &quot;A kuest for klout™️&quot; cooked
-          up sporadically by
-          <a href="https://www.instagram.com/christiandy/">@christiandy</a>
-          <a href="https://www.instagram.com/christiandy/">@nonissue</a>
-        </p>
-      </div>
-    </AboutWrapper>
-  );
-};
 
 export default About;

@@ -2,6 +2,73 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
 import { Link, useParams } from 'react-router-dom';
+import useAxios from '../lib/useAxios';
+
+type PostState = {
+  title: string;
+  id: number;
+  body: string;
+  userId: number;
+};
+
+type AuthorState = {
+  name: string;
+};
+
+/* 
+Issue: 
+We don't know the userId until we've fetched the post successfully
+Once we get the userId, we can fetch the user data. So we have to
+await the post data? 
+So we have to make useAxios an async hook right?
+
+It is nice that the useAxios hook returns a structured object of state
+(data, loading, error)
+
+*/
+
+export const PostPage: React.FC = () => {
+  // eslint-disable-next-line prefer-const
+  let { id } = useParams();
+  const [post, setPost] = useState<PostState>();
+  const [author, setAuthor] = useState<AuthorState>();
+
+  useEffect(() => {
+    async function getData(url: string) {
+      const fetchedData = await axios.get(url);
+      return fetchedData;
+    }
+
+    async function init() {
+      // will this data fetching cause race conditions?
+      // also/related: handle unsub/cleanup?
+      const { data: postRes } = await getData(`/.netlify/functions/posts-fetch-one/${id}`);
+      const { data: authorRes } = await getData(
+        `/.netlify/functions/users-fetch-one/${postRes.userId}`,
+      );
+
+      setAuthor(authorRes);
+      setPost(postRes);
+    }
+    init();
+  }, [id]);
+
+  return (
+    <StyledPost>
+      {post && author ? (
+        <>
+          <h2>
+            <Link to={`/posts/${post.id}`}>{post.title}</Link>
+          </h2>
+          <h4>— by {author ? author.name : 'Loading'}</h4>
+          <p>{post.body}</p>
+        </>
+      ) : (
+        <></>
+      )}
+    </StyledPost>
+  );
+};
 
 const StyledPost = styled.div`
   text-align: left;
@@ -30,57 +97,5 @@ const StyledPost = styled.div`
     font-size: 0.95em;
   }
 `;
-
-type PostState = {
-  title: string;
-  id: number;
-  body: string;
-  userId: number;
-};
-
-type AuthorState = {
-  name: string;
-};
-
-export const PostPage: React.FC = () => {
-  // eslint-disable-next-line prefer-const
-  let { id } = useParams();
-  const [post, setPost] = useState<PostState>();
-  const [author, setAuthor] = useState<AuthorState>();
-
-  useEffect(() => {
-    async function getData() {
-      const fetchedPost = await axios.get(`/.netlify/functions/posts-fetch-one/${id}`);
-      return fetchedPost;
-    }
-
-    async function init() {
-      const { data: res } = await getData();
-      const { data: postAuthor } = await axios.get(
-        `/.netlify/functions/users-fetch-one/${res.userId}`,
-      );
-
-      setAuthor(postAuthor);
-      setPost(res);
-    }
-    init();
-  }, [id]);
-
-  return (
-    <StyledPost>
-      {post && author ? (
-        <>
-          <h2>
-            <Link to={`/posts/${post.id}`}>{post.title}</Link>
-          </h2>
-          <h4>— by {author ? author.name : 'Loading'}</h4>
-          <p>{post.body}</p>
-        </>
-      ) : (
-        <></>
-      )}
-    </StyledPost>
-  );
-};
 
 export default PostPage;

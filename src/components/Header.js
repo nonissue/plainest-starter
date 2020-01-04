@@ -5,6 +5,39 @@ import { AiOutlineLeft as Back, AiOutlineQuestionCircle as Question } from 'reac
 
 import { Logo } from './Logo';
 
+export function Header() {
+  const location = useLocation();
+  return (
+    <StyledHeader>
+      {!(location.pathname === '/') ? (
+        <div className="control">
+          <Link to="/">
+            <Back />
+          </Link>
+        </div>
+      ) : (
+        <div className="control hidden">
+          <Back />
+        </div>
+      )}
+
+      <Logo showImage={false} />
+
+      {!(location.pathname === '/about') ? (
+        <div className="control">
+          <Link to="/about">
+            <Question />
+          </Link>
+        </div>
+      ) : (
+        <div className="control hidden">
+          <Question />
+        </div>
+      )}
+    </StyledHeader>
+  );
+}
+
 const StyledHeader = styled.header`
   position: sticky;
   top: 0;
@@ -57,38 +90,5 @@ const StyledHeader = styled.header`
     }
   }
 `;
-
-export function Header() {
-  const location = useLocation();
-  return (
-    <StyledHeader>
-      {!(location.pathname === '/') ? (
-        <div className="control">
-          <Link to="/">
-            <Back />
-          </Link>
-        </div>
-      ) : (
-        <div className="control hidden">
-          <Back />
-        </div>
-      )}
-
-      <Logo showImage={false} />
-
-      {!(location.pathname === '/about') ? (
-        <div className="control">
-          <Link to="/about">
-            <Question />
-          </Link>
-        </div>
-      ) : (
-        <div className="control hidden">
-          <Question />
-        </div>
-      )}
-    </StyledHeader>
-  );
-}
 
 export default Header;

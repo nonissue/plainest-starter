@@ -1,10 +1,21 @@
 import React from 'react';
 import styled from 'styled-components';
-import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 
-// import PSLogo2x from '../PSLogo2x.png';
-// import PSLogo from '../PSLogo.png';
+export function Logo() {
+  return (
+    <LogoWrapper>
+      <>
+        <h1>
+          <Link to="/">Starter</Link>
+        </h1>
+        <h3>
+          <a href="https://instagram.com/yourinstagram">yourinstagram</a>
+        </h3>
+      </>
+    </LogoWrapper>
+  );
+}
 
 const LogoWrapper = styled.div`
   font-display: block;
@@ -61,24 +72,5 @@ const LogoWrapper = styled.div`
     margin-right: 0.1em;
   }
 `;
-
-export function Logo() {
-  return (
-    <LogoWrapper>
-      <>
-        <h1>
-          <Link to="/">Starter</Link>
-        </h1>
-        <h3>
-          <a href="https://instagram.com/yourinstagram">yourinstagram</a>
-        </h3>
-      </>
-    </LogoWrapper>
-  );
-}
-
-Logo.propTypes = {
-  showImage: PropTypes.bool.isRequired,
-};
 
 export default Logo;

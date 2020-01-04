@@ -1,7 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter as Router } from 'react-router-dom';
-import About from './About';
+import About from './About.tsx';
+
 jest.mock('axios');
 
 it('renders without crashing', () => {

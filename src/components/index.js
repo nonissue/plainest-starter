@@ -2,6 +2,6 @@
 import { Error } from './Error';
 import { Header } from './Header';
 import { Loading } from './Loading';
-import { PostListItem } from './PostListItem.tsx';
+import { PostsListItem } from './PostsListItem.tsx';
 
-export { Header, Error, Loading, PostListItem };
+export { Header, Error, Loading, PostsListItem };
