@@ -23,7 +23,8 @@ await the post data?
 So we have to make useAxios an async hook right?
 
 It is nice that the useAxios hook returns a structured object of state
-(data, loading, error)
+(data, loading, error). But then do we really need that since we are only 
+rendering one discrete component?
 
 */
 
@@ -64,7 +65,7 @@ export const PostPage: React.FC = () => {
           <p>{post.body}</p>
         </>
       ) : (
-        <></>
+        <>Loading</>
       )}
     </StyledPost>
   );

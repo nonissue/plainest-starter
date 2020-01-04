@@ -62,7 +62,7 @@ function App() {
 const AppWrapper = styled.div`
   text-align: center;
   color: #032d4d;
-  font-family: 'Work Sans';
+  font-family: 'Work Sans', 'Helvetica Neue', 'Helvetica', Arial, sans-serif;
 
   a {
     text-decoration: none;

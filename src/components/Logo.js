@@ -38,22 +38,21 @@ const LogoWrapper = styled.div`
   }
 
   h1 {
-    font-size: 1.2em;
     margin: 0;
+    font-size: 1.2em;
     text-transform: uppercase;
     font-family: 'Bebas Neue', 'Helvetica', sans-serif;
     font-weight: 400;
-
     color: #fff;
   }
 
   h3 {
     margin-top: 0em;
+    margin-bottom: 0em;
+    margin-left: 0.1em;
     font-family: 'Lekton', sans-serif;
     font-weight: 300;
-    margin-bottom: 0em;
     font-size: 0.6em;
-    margin-left: 0.1em;
     text-decoration: underline;
     text-decoration-color: hsla(205.9, 92.3%, 40%, 0.5);
     text-underline-offset: 0.1rem;
@@ -62,13 +61,12 @@ const LogoWrapper = styled.div`
   h3::before {
     content: '@';
     font-family: 'Lekton', sans-serif;
+    font-weight: 500;
     text-decoration-color: transparent;
     text-decoration: none;
     /* for some reason this removes the underline, which i want */
     display: inline-block;
     color: #9cb6c9;
-    text-decoration: none !important;
-    font-weight: 500;
     margin-right: 0.1em;
   }
 `;

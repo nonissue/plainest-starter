@@ -47,9 +47,10 @@ const StyledPost = styled.div`
 
   h2 {
     font-weight: 600;
-    font-size: 1.2em;
+    font-size: 1.4em;
+    max-width: 85%;
     text-transform: capitalize;
-    line-height: 1.5em;
+    line-height: 1.2em;
     margin-bottom: 0;
     letter-spacing: -0.03em;
   }

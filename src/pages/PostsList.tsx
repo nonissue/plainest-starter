@@ -45,6 +45,7 @@ const StyledPosts = styled.div`
       line-height: 1.2em;
       text-align: center;
       letter-spacing: -0.02em;
+      max-width: 100%;
     }
     h4 {
       text-align: center;
@@ -54,9 +55,5 @@ const StyledPosts = styled.div`
     }
   }
 `;
-
-// export const Posts: React.FunctionComponent = () => {
-//   return <div>Posts</div>;
-// };
 
 export default PostsList;
