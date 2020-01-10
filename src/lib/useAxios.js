@@ -115,6 +115,8 @@ export function createAxiosAsync(args) {
 }
 
 // returns async axios request
+// parameter: args
+// has to be an object with a url field
 export function useAxiosAsync(args) {
   const [state, dispatch] = useReducer(axiosReducer, initialState);
   const asyncTask = createAxiosAsync(args);
@@ -126,6 +128,8 @@ export function useAxiosAsync(args) {
           const result = await asyncTask();
           dispatch({ type: STATES.success, payload: result.data });
         } catch (e) {
+          if (axios.isCancel(e)) return;
+
           dispatch({ type: STATES.error });
         }
       })();

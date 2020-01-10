@@ -1,10 +1,9 @@
 import { Route, Switch } from 'react-router-dom';
 import React from 'react';
 import styled from 'styled-components';
-import { useAxiosAsync } from './lib/useAxios';
 
 import './App.css';
-import { Error as ErrorPage, Header } from './components';
+import { Error as ErrorPage, Footer, Header } from './components';
 import { About, PostsList, PostPage } from './pages';
 
 /*
@@ -54,43 +53,19 @@ function App() {
           </Route>
         </Switch>
       </div>
-      <div className="footer">Copyright 2019 © yoursite</div>
+      <Footer />
     </AppWrapper>
   );
 }
 
 const AppWrapper = styled.div`
   text-align: center;
-  color: #032d4d;
+  /* color: #032d4d; */
   font-family: 'Work Sans', 'Helvetica Neue', 'Helvetica', Arial, sans-serif;
 
   a {
     text-decoration: none;
     color: #333;
-  }
-
-  .footer {
-    opacity: 0;
-    padding: 5px 0 5px 0;
-    display: flex;
-    justify-content: center;
-    margin-top: 2em;
-    margin-bottom: 2em;
-    font-size: 0.7em;
-    font-family: 'Lekton', monospace;
-    text-transform: uppercase;
-    animation: fadein 1s;
-    animation-delay: 3s;
-    animation-fill-mode: forwards;
-  }
-
-  @keyframes fadein {
-    from {
-      opacity: 0;
-    }
-    to {
-      opacity: 1;
-    }
   }
 `;
 
