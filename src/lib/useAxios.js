@@ -46,7 +46,6 @@ export default function useAxios(args) {
 
     dispatch({ type: STATES.loading });
 
-    // async function start() {
     axios({
       ...args,
       cancelToken: new axios.CancelToken(token => {
@@ -75,8 +74,6 @@ export default function useAxios(args) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // console.log(state);
-
   return state;
 }
 
@@ -98,13 +95,12 @@ function asyncAxiosReducer(state, action) {
 Create the async task
 Return the async task
 
-
 */
 
 export function createAxiosAsync(args) {
   const start = async () => {
     try {
-      const result = await axios(args.url);
+      const result = await axios({ ...args });
       return result;
     } catch (err) {
       throw new Error(err);
@@ -114,14 +110,28 @@ export function createAxiosAsync(args) {
   return start;
 }
 
-// returns async axios request
-// parameter: args
-// has to be an object with a url field
+/* 
+Funtion: useAxiosAsync
+
+parameter: args -> has to be an object with a url field 
+returns: state (created with reducer after data is fetched)
+
+Is there any diff between useaxios and useaxiosasync?
+
+TODO: 
+- [ ] test
+- [ ] unsub for effect
+- [ ] axios cancel
+- [ ] abstract so we can create other async tasks
+ */
+
 export function useAxiosAsync(args) {
   const [state, dispatch] = useReducer(axiosReducer, initialState);
   const asyncTask = createAxiosAsync(args);
 
   useEffect(() => {
+    dispatch({ type: STATES.loading });
+
     if (asyncTask) {
       (async () => {
         try {
@@ -133,7 +143,10 @@ export function useAxiosAsync(args) {
           dispatch({ type: STATES.error });
         }
       })();
+    } else {
+      dispatch({ types: STATES.error });
     }
+
     // The effect dependencies not being an array literal is a problem
     // but I don't see immediate side effects, and there isn't an easy way to fix it AFAIK.we ony
     // we only want this to run once anyway?

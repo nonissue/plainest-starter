@@ -11,7 +11,7 @@ describe('fetchData', () => {
     // console.log(typeof data.body);
     axios.get.mockImplementationOnce(() => Promise.resolve(data));
 
-    expect(JSON.parse(data.body).length).toEqual(10);
+    expect(JSON.parse(data.body).length).toEqual(15);
   });
   it('fetches erroneously data from an API', async () => {
     const errorMessage = 'Network Error';

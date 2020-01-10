@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import axios from 'axios';
 import { Link, useParams } from 'react-router-dom';
-import { useAxiosAsync } from '../lib/useAxios';
+import useAxios, { useAxiosAsync } from '../lib/useAxios';
 
 type PostState = {
   title: string;
@@ -29,9 +29,29 @@ rendering one discrete component?
 
 */
 
+/*
+Note:
+
+Removed useAxios / useAxiosAsync altogether.
+Function below replaces them
+That way,  we don't need two different components both fetching
+
+Would be nice to use reduecers for each slice of state
+*/
+const fetchPostWithAuthor = async (
+  id: string | undefined,
+): Promise<{ post: PostState; author: AuthorState }> => {
+  const { data: post } = await axios({ url: `/.netlify/functions/posts-fetch-one/${id}` });
+  const { data: author } = await axios({
+    url: `/.netlify/functions/users-fetch-one/${post.userId}`,
+  });
+
+  return { post, author };
+};
+
 const AuthorInfo: React.FC<{ userId: number }> = ({ userId }) => {
   // const { data: authorRes } = useAxiosAsync(`/.netlify/functions/users-fetch-one/${userId}}`);
-  const { data: authorRes, loading, error } = useAxiosAsync({
+  const { data: authorRes, loading, error } = useAxios({
     url: `/.netlify/functions/users-fetch-one/${userId}`,
   });
 
@@ -57,41 +77,46 @@ const AuthorInfo: React.FC<{ userId: number }> = ({ userId }) => {
 export const PostPage: React.FC = () => {
   // eslint-disable-next-line prefer-const
   let { id } = useParams();
+  const [data, setData] = useState<{ post: PostState; author: AuthorState }>();
+
   // const [post, setPost] = useState<PostState>();
 
-  const { data: post, loading, error } = useAxiosAsync({
-    url: `/.netlify/functions/posts-fetch-one/${id}`,
-  });
+  // const { data: post, loading, error } = useAxiosAsync({
+  //   url: `/.netlify/functions/posts-fetch-one/${id}`,
+  // });
 
-  console.log('Post: ' + post);
+  // let test;
 
-  // useEffect(() => {
-  //   async function getData(url: string) {
-  //     const fetchedData = await axios.get(url);
-  //     return fetchedData;
-  //   }
+  useEffect(() => {
+    (async () => {
+      const res = await fetchPostWithAuthor(id);
+      setData(res);
+    })();
+  }, [id]);
 
-  //   async function init() {
-  //     // will this data fetching cause race conditions?
-  //     // also/related: handle unsub/cleanup?
-  //     const { data: res } = await getData(`/.netlify/functions/posts-fetch-one/${id}`);
+  // if (error) {
+  //   return (
+  //     <>
+  //       <h2>Error: 500</h2>
+  //       <h4>Error fetching post!</h4>
+  //     </>
+  //   );
+  // }
 
-  //     // setAuthor(authorRes);
-  //     // setPost(postRes);
-  //     // console.log(postRes);
-  //   }
-  //   init();
-  // }, [id]);
+  // if (loading) {
+  //   return <>Loading</>;
+  // }
 
   return (
     <StyledPost>
-      {post ? (
+      {data ? (
         <>
           <h1>
-            <Link to={`/posts/${post.id}`}>{post.title}</Link>
+            <Link to={`/posts/${data.post.id}`}>{data.post.title}</Link>
           </h1>
-          <AuthorInfo userId={post.userId} />
-          <p>{post.body}</p>
+          <h4>— by {data.author.name}</h4>
+          {/* <AuthorInfo userId={post.userId} /> */}
+          <p>{data.post.body}</p>
         </>
       ) : (
         <>Loading...</>

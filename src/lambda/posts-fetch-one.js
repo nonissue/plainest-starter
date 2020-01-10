@@ -20,6 +20,7 @@ exports.handler = async event => {
       body: JSON.stringify(post),
     };
   }
+
   return {
     statusCode: 500,
     body: JSON.stringify({
