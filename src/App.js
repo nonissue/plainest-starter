@@ -1,7 +1,7 @@
 import { Route, Switch } from 'react-router-dom';
 import React from 'react';
 import styled from 'styled-components';
-import useAxios from './lib/useAxios';
+import { useAxiosAsync } from './lib/useAxios';
 
 import './App.css';
 import { Error as ErrorPage, Header } from './components';

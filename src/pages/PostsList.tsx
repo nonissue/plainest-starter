@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import useAxios from '../lib/useAxios';
+import useAxios, { useAxiosAsync } from '../lib/useAxios';
 import { Loading, PostsListItem } from '../components';
 
 type Post = {
@@ -15,7 +15,8 @@ export const PostsList: React.FC = () => {
     url: '/.netlify/functions/posts-fetch-all-mock',
   };
 
-  const { data: posts, loading, error } = useAxios(url);
+  // const { data: posts, loading, error } = useAxios(url);
+  const { data: posts, loading, error } = useAxiosAsync(url);
 
   if (error) {
     return <div>Error!</div>;

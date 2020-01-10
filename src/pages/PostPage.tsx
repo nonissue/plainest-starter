@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
 import { Link, useParams } from 'react-router-dom';
-import useAxios from '../lib/useAxios';
+import { useAxiosAsync } from '../lib/useAxios';
 
 type PostState = {
   title: string;
@@ -28,12 +28,42 @@ rendering one discrete component?
 
 */
 
+const AuthorInfo: React.FC<{ userId: number }> = ({ userId }) => {
+  // const { data: authorRes } = useAxiosAsync(`/.netlify/functions/users-fetch-one/${userId}}`);
+  const { data: authorRes, loading, error } = useAxiosAsync({
+    url: `/.netlify/functions/users-fetch-one/${userId}`,
+  });
+
+  if (error) {
+    return (
+      <>
+        <h4>— Error fetching author!</h4>
+      </>
+    );
+  }
+
+  if (loading) {
+    return <>Loading</>;
+  }
+
+  return (
+    <>
+      <h4>— by {authorRes ? authorRes.name : 'Loading'}</h4>
+    </>
+  );
+};
+
 export const PostPage: React.FC = () => {
   // eslint-disable-next-line prefer-const
   let { id } = useParams();
   const [post, setPost] = useState<PostState>();
-  const [author, setAuthor] = useState<AuthorState>();
+  // const [author, setAuthor] = useState<AuthorState>();
+  // console.log(postTest);
+  // const { data: userTest } = useAxiosAsync(
+  //   `/.netlify/functions/users-fetch-one/${postTest.userId || 1}`,
+  // );
 
+  // console.log(userTest);
   useEffect(() => {
     async function getData(url: string) {
       const fetchedData = await axios.get(url);
@@ -44,24 +74,22 @@ export const PostPage: React.FC = () => {
       // will this data fetching cause race conditions?
       // also/related: handle unsub/cleanup?
       const { data: postRes } = await getData(`/.netlify/functions/posts-fetch-one/${id}`);
-      const { data: authorRes } = await getData(
-        `/.netlify/functions/users-fetch-one/${postRes.userId}`,
-      );
 
-      setAuthor(authorRes);
+      // setAuthor(authorRes);
       setPost(postRes);
+      // console.log(postRes);
     }
     init();
   }, [id]);
 
   return (
     <StyledPost>
-      {post && author ? (
+      {post ? (
         <>
-          <h2>
+          <h1>
             <Link to={`/posts/${post.id}`}>{post.title}</Link>
-          </h2>
-          <h4>— by {author ? author.name : 'Loading'}</h4>
+          </h1>
+          <AuthorInfo userId={post.userId} />
           <p>{post.body}</p>
         </>
       ) : (

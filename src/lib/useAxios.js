@@ -75,11 +75,12 @@ export default function useAxios(args) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  console.log(state);
+  // console.log(state);
 
   return state;
 }
 
+// eslint-disable-next-line no-unused-vars
 function asyncAxiosReducer(state, action) {
   switch (action.type) {
     case STATES.loading:
@@ -93,52 +94,49 @@ function asyncAxiosReducer(state, action) {
   }
 }
 
+/* 
+Create the async task
+Return the async task
+
+
+*/
+
+export function createAxiosAsync(args) {
+  const start = async () => {
+    try {
+      const result = await axios(args.url);
+      return result;
+    } catch (err) {
+      throw new Error(err);
+    }
+  };
+
+  return start;
+}
+
+// returns async axios request
 export function useAxiosAsync(args) {
   const [state, dispatch] = useReducer(axiosReducer, initialState);
+  const asyncTask = createAxiosAsync(args);
 
   useEffect(() => {
-    let cancelToken = null;
-
-    dispatch({ type: STATES.loading });
-
-    const start = async () => {
-      try {
-        const result = await axios(args.url);
-      } catch (err) {
-        throw new Error(err);
-      }
-    };
-
-    // async function start() {
-    axios({
-      ...args,
-      cancelToken: new axios.CancelToken(token => {
-        cancelToken = token;
-      }),
-    })
-      .then(({ data }) => {
-        cancelToken = null;
-        dispatch({ type: STATES.success, payload: data });
-      })
-      .catch(e => {
-        if (axios.isCancel(e)) return;
-
-        dispatch({ type: STATES.error });
-      });
-    // }
-
-    return () => {
-      if (cancelToken) {
-        cancelToken();
-      }
-    };
+    if (asyncTask) {
+      (async () => {
+        try {
+          const result = await asyncTask();
+          dispatch({ type: STATES.success, payload: result.data });
+        } catch (e) {
+          dispatch({ type: STATES.error });
+        }
+      })();
+    }
     // The effect dependencies not being an array literal is a problem
     // but I don't see immediate side effects, and there isn't an easy way to fix it AFAIK.we ony
     // we only want this to run once anyway?
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  console.log(state);
+  // console.log(state);
 
   return state;
 }
