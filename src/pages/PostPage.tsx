@@ -77,46 +77,25 @@ const AuthorInfo: React.FC<{ userId: number }> = ({ userId }) => {
 export const PostPage: React.FC = () => {
   // eslint-disable-next-line prefer-const
   let { id } = useParams();
-  const [data, setData] = useState<{ post: PostState; author: AuthorState }>();
 
-  // const [post, setPost] = useState<PostState>();
+  const { data: postData } = useAxiosAsync({
+    url: `/.netlify/functions/posts-fetch-one/${id}`,
+  });
 
-  // const { data: post, loading, error } = useAxiosAsync({
-  //   url: `/.netlify/functions/posts-fetch-one/${id}`,
-  // });
-
-  // let test;
-
-  useEffect(() => {
-    (async () => {
-      const res = await fetchPostWithAuthor(id);
-      setData(res);
-    })();
-  }, [id]);
-
-  // if (error) {
-  //   return (
-  //     <>
-  //       <h2>Error: 500</h2>
-  //       <h4>Error fetching post!</h4>
-  //     </>
-  //   );
-  // }
-
-  // if (loading) {
-  //   return <>Loading</>;
-  // }
+  const { data: authorData } = useAxiosAsync({
+    url: postData ? `/.netlify/functions/users-fetch-one/${postData.userId}` : null,
+  });
 
   return (
     <StyledPost>
-      {data ? (
+      {postData ? (
         <>
           <h1>
-            <Link to={`/posts/${data.post.id}`}>{data.post.title}</Link>
+            <Link to={`/posts/${postData.id}`}>{postData.title}</Link>
           </h1>
-          <h4>— by {data.author.name}</h4>
+          <h4>— by {authorData ? authorData.name : 'Loading'}</h4>
           {/* <AuthorInfo userId={post.userId} /> */}
-          <p>{data.post.body}</p>
+          <p>{postData.body}</p>
         </>
       ) : (
         <>Loading...</>

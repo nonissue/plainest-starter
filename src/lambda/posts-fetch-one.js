@@ -14,6 +14,8 @@ exports.handler = async event => {
   const id = getId(event.path);
   const post = fakePosts.find(p => p.id === id);
 
+  // console.log(post);
+
   if (post) {
     return {
       statusCode: 200,

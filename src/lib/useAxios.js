@@ -130,6 +130,10 @@ export function useAxiosAsync(args) {
   const asyncTask = createAxiosAsync(args);
 
   useEffect(() => {
+    if (!args.url) {
+      return;
+    }
+
     dispatch({ type: STATES.loading });
 
     if (asyncTask) {
@@ -151,7 +155,7 @@ export function useAxiosAsync(args) {
     // but I don't see immediate side effects, and there isn't an easy way to fix it AFAIK.we ony
     // we only want this to run once anyway?
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [args.url]);
 
   // console.log(state);
 
