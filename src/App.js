@@ -4,7 +4,7 @@ import styled from 'styled-components';
 
 import './App.css';
 import { Error as ErrorPage, Footer, Header } from './components';
-import { About, PostsList, PostPage } from './pages';
+import { About, PostsList, PostPage, UsersList, UserPage } from './pages';
 
 /*
 
@@ -37,7 +37,7 @@ function App() {
   return (
     <AppWrapper>
       <Header />
-      <div>
+      <ContentWrapper>
         <Switch>
           <Route exact path="/">
             <PostsList />
@@ -45,6 +45,8 @@ function App() {
           <Route path="/posts/:id" component={PostPage}>
             <PostPage />
           </Route>
+          <Route exact path="/user" component={UsersList} />
+          <Route path="/user/:id" component={UserPage} />
           <Route path="/about">
             <About />
           </Route>
@@ -52,7 +54,7 @@ function App() {
             <ErrorPage error={{ code: 404, msg: 'Page not found!' }} />
           </Route>
         </Switch>
-      </div>
+      </ContentWrapper>
       <Footer />
     </AppWrapper>
   );
@@ -60,12 +62,20 @@ function App() {
 
 const AppWrapper = styled.div`
   text-align: center;
-  /* color: #032d4d; */
-  font-family: 'Work Sans', 'Helvetica Neue', 'Helvetica', Arial, sans-serif;
+  font-family: ${props => props.theme.font};
+  color: ${props => props.theme.text};
+  /* background: ${props => props.theme.red}; */
 
   a {
-    text-decoration: none;
+    /* ${props => props.theme.link} */
     color: #333;
+    text-decoration: none;
+  }
+`;
+
+const ContentWrapper = styled.div`
+  a {
+    ${props => props.theme.link}
   }
 `;
 

@@ -11,7 +11,6 @@ Tests:
 TODO: 
 * This fetches data, should all data fetching components be separated?
 */
-
 type PostProps = {
   id: number;
   title: string;
@@ -35,7 +34,10 @@ export const PostsListItem: React.FC<PostProps> = ({ id, title, userId }: PostPr
       <h2>
         <Link to={`/posts/${id}`}>{title}</Link>
       </h2>
-      <h4>— by {user.name}</h4>
+      <h4>
+        — by
+        <Link to={`/user/${user.id}`}> {user.name}</Link>
+      </h4>
     </StyledPost>
   );
 };
@@ -58,7 +60,7 @@ const StyledPost = styled.div`
     font-weight: 300;
     text-transform: uppercase;
     padding: 0;
-    font-size: 0.9em;
+    font-size: 0.75em;
     margin: 0;
     color: #555;
   }

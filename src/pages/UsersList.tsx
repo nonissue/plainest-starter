@@ -10,37 +10,47 @@ type Post = {
   userId: number;
 };
 
-export const PostsList: React.FC = () => {
+export const UsersList: React.FC = () => {
   const url = {
-    url: '/.netlify/functions/posts-fetch-all-mock',
+    url: '/.netlify/functions/users-fetch-all',
   };
 
-  const { data: posts, loading, error } = useAxiosAsync(url);
+  const { data: users, loading, error } = useAxiosAsync(url);
 
   if (error) {
     return <div>Error!</div>;
   }
 
   return (
-    <StyledPosts>
-      {!loading ? (
+    <StyledUsers>
+      {users ? (
         /* eslint-disable-next-line react/jsx-props-no-spreading */
-        posts.map((post: Post) => <PostsListItem key={post.id} {...post} />)
+        users.map(
+          (user: any) => (
+            <div>
+              <p>
+                <b>{user.name}</b>
+              </p>
+              <p>{user.email}</p>
+            </div>
+          ),
+          // <UsersListItem key={post.id} {...post} />
+        )
       ) : (
         <Loading />
       )}
-    </StyledPosts>
+    </StyledUsers>
   );
 };
 
-const StyledPosts = styled.div`
+const StyledUsers = styled.div`
   max-width: 600px;
   margin: 0 auto;
   a {
     background: orange;
   }
 
-  div:first-child {
+  /* div:first-child {
     margin-bottom: 4em;
     h2 {
       font-size: 2.5em;
@@ -56,7 +66,7 @@ const StyledPosts = styled.div`
       margin-top: 1em;
       font-size: 1.2em;
     }
-  }
+  } */
 `;
 
-export default PostsList;
+export default UsersList;

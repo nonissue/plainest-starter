@@ -13,3 +13,7 @@ https://stackoverflow.com/questions/55550373/how-to-handle-chain-synchronous-sid
 
 https://codesandbox.io/s/0owknqvzmn !!
 https://www.youtube.com/watch?v=y55rLsSNUiM
+
+https://www.youtube.com/watch?v=y55rLsSNUiM MONEY
+https://github.com/kentcdodds/ama/issues/618
+https://codesandbox.io/s/0owknqvzmn

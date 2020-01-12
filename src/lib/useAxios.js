@@ -1,6 +1,9 @@
 // from
 // https://github.com/strt/www/blob/6cb0dee92fc39ed71433a92996156e34639b8b49/src/lib/useAxios.js
-
+// actually I think this is the original:
+// https://github.com/ABWalters/react-api-hooks/blob/master/src/useAPI.js
+// this is similar:
+// https://github.com/use-hooks/react-hooks-axios/blob/master/src/index.js
 /* 
 NOTE:
 Could use 
@@ -28,11 +31,11 @@ const initialState = { loading: true, error: false, data: undefined };
 function axiosReducer(state, action) {
   switch (action.type) {
     case STATES.loading:
-      return { ...state, loading: true, error: false };
+      return { ...state, loading: true, error: null };
     case STATES.error:
-      return { ...state, loading: false, error: true };
+      return { ...state, loading: false, error: action.payload };
     case STATES.success:
-      return { ...state, loading: false, error: false, data: action.payload };
+      return { ...state, loading: false, error: null, data: action.payload };
     default:
       throw new Error();
   }
@@ -124,7 +127,6 @@ TODO:
 - [ ] axios cancel
 - [ ] abstract so we can create other async tasks
  */
-
 export function useAxiosAsync(args) {
   const [state, dispatch] = useReducer(axiosReducer, initialState);
   const asyncTask = createAxiosAsync(args);
