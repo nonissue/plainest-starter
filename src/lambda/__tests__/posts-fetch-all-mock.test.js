@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { BrowserRouter as Router } from 'react-router-dom';
+// import { BrowserRouter as Router } from 'react-router-dom';
 import { handler } from '../posts-fetch-all-mock';
 
 jest.mock('axios');

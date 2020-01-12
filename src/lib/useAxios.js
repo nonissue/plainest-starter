@@ -57,6 +57,7 @@ export function useAxios(args, options = {}) {
     (the url param is set to null when we are waiting on
     data from another instance of the hook) 
      */
+    // eslint-disable-next-line no-console
     console.log('effect called');
     if (args.url) {
       axios(args.url, {
@@ -79,7 +80,7 @@ export function useAxios(args, options = {}) {
         cancelToken();
       }
     };
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [args.url]);
 
   return state;
