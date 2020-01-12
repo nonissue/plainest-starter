@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { useAxios } from '../lib/useAxios';
-import { Loading, PostsListItem } from '../components';
+import { Loading } from '../components';
 
 type Post = {
   title: string;
@@ -23,19 +23,15 @@ export const UsersList: React.FC = () => {
 
   return (
     <StyledUsers>
-      {users ? (
-        /* eslint-disable-next-line react/jsx-props-no-spreading */
-        users.map(
-          (user: any) => (
-            <div>
-              <p>
-                <b>{user.name}</b>
-              </p>
-              <p>{user.email}</p>
-            </div>
-          ),
-          // <UsersListItem key={post.id} {...post} />
-        )
+      {!loading ? (
+        users.map((user: any) => (
+          <div>
+            <p>
+              <b>{user.name}</b>
+            </p>
+            <p>{user.email}</p>
+          </div>
+        ))
       ) : (
         <Loading />
       )}

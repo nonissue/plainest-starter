@@ -35,8 +35,7 @@ export const PostsListItem: React.FC<PostProps> = ({ id, title, userId }: PostPr
         <Link to={`/posts/${id}`}>{title}</Link>
       </h2>
       <h4>
-        — by
-        <Link to={`/user/${user.id}`}> {user.name}</Link>
+        — <Link to={`/user/${user.id}`}>{user.name}</Link>
       </h4>
     </StyledPost>
   );
@@ -60,9 +59,17 @@ const StyledPost = styled.div`
     font-weight: 300;
     text-transform: uppercase;
     padding: 0;
-    font-size: 0.75em;
+    font-size: 0.85em;
     margin: 0;
     color: #555;
+
+    a {
+      background: transparent;
+      font-family: 'Lekton';
+      font-weight: 400;
+      /* border-radius: 0.25em;
+      padding: 0.1em 0.2em; */
+    }
   }
   p {
     font-size: 0.95em;

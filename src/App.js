@@ -42,9 +42,7 @@ function App() {
           <Route exact path="/">
             <PostsList />
           </Route>
-          <Route path="/posts/:id" component={PostPage}>
-            <PostPage />
-          </Route>
+          <Route path="/posts/:id" component={PostPage} />
           <Route exact path="/user" component={UsersList} />
           <Route path="/user/:id" component={UserPage} />
           <Route path="/about">

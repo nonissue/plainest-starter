@@ -16,7 +16,7 @@ fudge it by disabling eslint for that line. Though this may cause other problems
 
  */
 
-import { useReducer, useEffect, useCallback, useRef } from 'react';
+import { useReducer, useEffect } from 'react';
 
 import axios from 'axios';
 
@@ -45,37 +45,13 @@ function axiosReducer(state, action) {
 useAxios 
 - ARGS param currently only accepts url
 */
-function fetch(args, options, dispatch) {
-  let cancelToken = null;
-  axios(args.url, {
-    // ...args,
-    // ...args.options,
-    ...options,
-    cancelToken: new axios.CancelToken(token => {
-      cancelToken = token;
-    }),
-  })
-    .then(({ data }) => {
-      cancelToken = null;
-      dispatch({ type: STATES.success, payload: data });
-    })
-    .catch(e => {
-      if (axios.isCancel(e)) return;
-      dispatch({ type: STATES.error });
-    });
-}
 
 // eslint-disable-next-line import/prefer-default-export
 export function useAxios(args, options = {}) {
   const [state, dispatch] = useReducer(axiosReducer, initialState);
-  const task = useRef();
-
-  const test = useCallback(fetch, [options, args]);
 
   useEffect(() => {
-    // console.log(JSON.stringify(args.options));
-
-    // console.log(args.options);
+    let cancelToken = null;
     /* 
     Only fetch when the url !== null
     (the url param is set to null when we are waiting on
@@ -83,15 +59,27 @@ export function useAxios(args, options = {}) {
      */
     console.log('effect called');
     if (args.url) {
-      //
-
-      fetch(args, options, dispatch);
+      axios(args.url, {
+        ...options,
+        cancelToken: new axios.CancelToken(token => {
+          cancelToken = token;
+        }),
+      })
+        .then(({ data }) => {
+          cancelToken = null;
+          dispatch({ type: STATES.success, payload: data });
+        })
+        .catch(e => {
+          if (axios.isCancel(e)) return;
+          dispatch({ type: STATES.error });
+        });
     }
-    // return () => {
-    //   if (cancelToken) {
-    //     cancelToken();
-    //   }
-    // };
+    return () => {
+      if (cancelToken) {
+        cancelToken();
+      }
+    };
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [args.url]);
 
   return state;
