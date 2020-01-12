@@ -2,14 +2,10 @@ import React from 'react';
 import styled from 'styled-components';
 
 export const Footer: React.FC = () => {
-  // const { data: authorRes } = useAxiosAsync(`/.netlify/functions/users-fetch-one/${userId}}`);
-
   return <FooterWrapper>Copyright 2019 © yoursite</FooterWrapper>;
 };
 
 const FooterWrapper = styled.div`
-  /* color: #032d4d; */
-
   a {
     text-decoration: none;
     color: #333;

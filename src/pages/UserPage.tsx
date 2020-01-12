@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
+import React from 'react';
+// import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { Link, useParams } from 'react-router-dom';
-import { useAxiosAsync } from '../lib/useAxios';
+import { useParams } from 'react-router-dom';
+import { useAxios } from '../lib/useAxios';
 
 type PostState = {
   title: string;
@@ -31,7 +31,7 @@ rendering one discrete component?
 /*
 Note:
 
-Removed useAxios / useAxiosAsync altogether.
+Removed useAxios / useAxios altogether.
 Function below replaces them
 That way,  we don't need two different components both fetching
 
@@ -42,7 +42,7 @@ export const UserPage: React.FC = () => {
   // eslint-disable-next-line prefer-const
   let { id } = useParams();
 
-  const { data: userData } = useAxiosAsync({
+  const { data: userData } = useAxios({
     url: `/.netlify/functions/users-fetch-one/${id}`,
   });
 

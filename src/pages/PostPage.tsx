@@ -1,9 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import axios from 'axios';
 import { Link, useParams } from 'react-router-dom';
-import useAxios, { useAxiosAsync } from '../lib/useAxios';
+import { useAxios } from '../lib/useAxios';
 
 type PostState = {
   title: string;
@@ -39,40 +38,20 @@ That way,  we don't need two different components both fetching
 Would be nice to use reduecers for each slice of state
 */
 
-const AuthorInfo: React.FC<{ userId: number }> = ({ userId }) => {
-  // const { data: authorRes } = useAxiosAsync(`/.netlify/functions/users-fetch-one/${userId}}`);
-  const { data: authorRes, loading, error } = useAxios({
-    url: `/.netlify/functions/users-fetch-one/${userId}`,
-  });
-
-  if (error) {
-    return (
-      <>
-        <h4>— Error fetching author!</h4>
-      </>
-    );
-  }
-
-  if (loading) {
-    return <>Loading</>;
-  }
-
-  return (
-    <>
-      <h4>by {authorRes ? authorRes.name : 'Loading'}</h4>
-    </>
-  );
-};
-
 export const PostPage: React.FC = () => {
   // eslint-disable-next-line prefer-const
   let { id } = useParams();
 
-  const { data: postData } = useAxiosAsync({
+  const { data: postData } = useAxios({
     url: `/.netlify/functions/posts-fetch-one/${id}`,
+    options: {
+      params: {
+        ID: 12345,
+      },
+    },
   });
 
-  const { data: authorData } = useAxiosAsync({
+  const { data: authorData } = useAxios({
     url: postData ? `/.netlify/functions/users-fetch-one/${postData.userId}` : null,
   });
 
@@ -130,9 +109,5 @@ const StyledPost = styled.div`
     }
   }
 `;
-
-AuthorInfo.propTypes = {
-  userId: PropTypes.number.isRequired,
-};
 
 export default PostPage;

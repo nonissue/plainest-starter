@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
-import useAxios from '../lib/useAxios';
+import { useAxios } from '../lib/useAxios';
 
 /*
 Tests:
