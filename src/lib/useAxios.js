@@ -16,7 +16,8 @@ fudge it by disabling eslint for that line. Though this may cause other problems
 
  */
 
-import { useReducer, useEffect } from 'react';
+import { useReducer, useEffect, useCallback } from 'react';
+import hash from 'object-hash';
 
 import axios from 'axios';
 
@@ -47,8 +48,16 @@ useAxios
 */
 
 // eslint-disable-next-line import/prefer-default-export
-export function useAxios(args, options = {}) {
+export function useAxios(args) {
   const [state, dispatch] = useReducer(axiosReducer, initialState);
+
+  const getConfig = useCallback(() => {
+    if (typeof args.test === 'object') {
+      console.log(hash(args.test));
+      return JSON.stringify(args.test);
+    }
+    return null;
+  }, [args.test]);
 
   useEffect(() => {
     let cancelToken = null;
@@ -61,7 +70,7 @@ export function useAxios(args, options = {}) {
     console.log('effect called');
     if (args.url) {
       axios(args.url, {
-        ...options,
+        ...getConfig(),
         cancelToken: new axios.CancelToken(token => {
           cancelToken = token;
         }),
@@ -81,7 +90,7 @@ export function useAxios(args, options = {}) {
       }
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [args.url]);
+  }, [args.url, getConfig]);
 
   return state;
 }

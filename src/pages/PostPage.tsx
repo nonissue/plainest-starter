@@ -44,11 +44,7 @@ export const PostPage: React.FC = () => {
 
   const { data: postData } = useAxios({
     url: `/.netlify/functions/posts-fetch-one/${id}`,
-    options: {
-      params: {
-        ID: 12345,
-      },
-    },
+    // test: { test: 'test' },
   });
 
   const { data: authorData } = useAxios({
