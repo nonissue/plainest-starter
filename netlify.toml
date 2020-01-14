@@ -4,6 +4,6 @@
 #  publish = "build" # create-react-app builds to this folder, Netlify should serve all these files statically
 
 [build]
-  Command = "yarn build"
+  Command = "yarn build:app"
   Functions = "lambda"
   Publish = "build"
