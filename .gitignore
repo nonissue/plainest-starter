@@ -11,6 +11,7 @@
 # /lambda
 
 /.netlify
+/build
 
 # misc
 .DS_Store
