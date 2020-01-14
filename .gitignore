@@ -31,3 +31,4 @@ yarn.lock
 # Built lambda folder
 /lambda
 
+build/
