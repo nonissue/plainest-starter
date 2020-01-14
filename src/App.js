@@ -43,8 +43,8 @@ function App() {
             <PostsList />
           </Route>
           <Route path="/posts/:id" component={PostPage} />
-          <Route exact path="/user" component={UsersList} />
-          <Route path="/user/:id" component={UserPage} />
+          <Route exact path="/users" component={UsersList} />
+          <Route path="/users/:id" component={UserPage} />
           <Route path="/about">
             <About />
           </Route>

@@ -15,29 +15,6 @@ type AuthorState = {
   name: string;
 };
 
-/* 
-Issue: 
-We don't know the userId until we've fetched the post successfully
-Once we get the userId, we can fetch the user data. So we have to
-await the post data? 
-So we have to make useAxios an async hook right?
-
-It is nice that the useAxios hook returns a structured object of state
-(data, loading, error). But then do we really need that since we are only 
-rendering one discrete component?
-
-*/
-
-/*
-Note:
-
-Removed useAxios / useAxios altogether.
-Function below replaces them
-That way,  we don't need two different components both fetching
-
-Would be nice to use reduecers for each slice of state
-*/
-
 export const UserPage: React.FC = () => {
   // eslint-disable-next-line prefer-const
   let { id } = useParams();

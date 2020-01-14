@@ -35,7 +35,7 @@ export const PostsListItem: React.FC<PostProps> = ({ id, title, userId }: PostPr
         <Link to={`/posts/${id}`}>{title}</Link>
       </h2>
       <h4>
-        — <Link to={`/user/${user.id}`}>{user.name}</Link>
+        — <Link to={`/users/${user.id}`}>{user.name}</Link>
       </h4>
     </StyledPost>
   );

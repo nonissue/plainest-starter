@@ -25,7 +25,7 @@ export const UsersList: React.FC = () => {
     <StyledUsers>
       {!loading ? (
         users.map((user: any) => (
-          <div>
+          <div key={user.id}>
             <p>
               <b>{user.name}</b>
             </p>

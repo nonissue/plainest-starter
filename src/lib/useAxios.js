@@ -26,7 +26,7 @@ const STATES = {
   error: 2,
 };
 
-const initialState = { loading: true, error: false, data: undefined };
+const initialState = { loading: true, error: null, data: undefined };
 
 function axiosReducer(state, action) {
   switch (action.type) {
@@ -58,38 +58,28 @@ export const useMemoList = (list, compareFn = (a, b) => a === b) => {
   return listRef.current;
 };
 
-// manually escape effect?
+// Could maybe simplify parameter signature now that I think I have the deps handled.
+// (spreading the url object seems a little redundant)
+// I think it was the shape of the parameters (not consistent between objects/strings/arrays)
+// that was causing me so many problems.
 
 // eslint-disable-next-line import/prefer-default-export
 export function useAxios(url, options = {}) {
   const [state, dispatch] = useReducer(axiosReducer, initialState);
-  // const memoArgs = useMemoList(args);
+
+  // Memoing the passed params seems to resolve the useEffect dependency issues
   const config = useMemo(() => ({ ...url, ...options }), [url, options]);
-  console.log(config);
-  // console.log(memoArgs);
-
-  // console.log(...memoArgs);
-
-  // const getConfig = useCallback(() => {
-  //   if (typeof args.test === 'object') {
-  //     console.log(hash(args.test));
-  //     return JSON.stringify(args.test);
-  //   }
-  //   console.log(typeof args.test);
-  //   return null;
-  // }, [args.test]);
 
   useEffect(() => {
     let cancelToken = null;
-    // let test = memoArgs[0];
-    // console.log(test);
+    // eslint-disable-next-line no-console
+    console.log('effect called');
     /* 
     Only fetch when the url !== null
     (the url param is set to null when we are waiting on
     data from another instance of the hook) 
      */
-    // eslint-disable-next-line no-console
-    console.log('effect called');
+
     if (config.url) {
       axios(config.url, {
         ...config.options,
@@ -112,7 +102,6 @@ export function useAxios(url, options = {}) {
         cancelToken();
       }
     };
-    //
   }, [config.url, config.options]);
 
   return state;

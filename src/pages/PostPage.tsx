@@ -42,10 +42,12 @@ export const PostPage: React.FC = () => {
   // eslint-disable-next-line prefer-const
   let { id } = useParams();
 
-  const { data: postData } = useAxios({
-    url: `/.netlify/functions/posts-fetch-one/${id}`,
-    test: { test: 'test', test2: 'test3' },
-  });
+  const { data: postData } = useAxios(
+    {
+      url: `/.netlify/functions/posts-fetch-one/${id}`,
+    },
+    { test: 'test', test2: 'test3' },
+  );
 
   const { data: authorData } = useAxios({
     url: postData ? `/.netlify/functions/users-fetch-one/${postData.userId}` : null,
