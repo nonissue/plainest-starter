@@ -1,6 +1,9 @@
 // from
 // https://github.com/strt/www/blob/6cb0dee92fc39ed71433a92996156e34639b8b49/src/lib/useAxios.js
-
+// actually I think this is the original:
+// https://github.com/ABWalters/react-api-hooks/blob/master/src/useAPI.js
+// this is similar:
+// https://github.com/use-hooks/react-hooks-axios/blob/master/src/index.js
 /* 
 NOTE:
 Could use 
@@ -13,7 +16,7 @@ fudge it by disabling eslint for that line. Though this may cause other problems
 
  */
 
-import { useReducer, useEffect } from 'react';
+import { useReducer, useEffect, useRef, useMemo } from 'react';
 
 import axios from 'axios';
 
@@ -23,55 +26,83 @@ const STATES = {
   error: 2,
 };
 
-const initialState = { loading: true, error: false, data: undefined };
+const initialState = { loading: true, error: null, data: undefined };
 
 function axiosReducer(state, action) {
   switch (action.type) {
     case STATES.loading:
-      return { ...state, loading: true, error: false };
+      return { ...state, loading: true, error: null };
     case STATES.error:
-      return { ...state, loading: false, error: true };
+      return { ...state, loading: false, error: action.payload };
     case STATES.success:
-      return { ...state, loading: false, error: false, data: action.payload };
+      return { ...state, loading: false, error: null, data: action.payload };
     default:
       throw new Error();
   }
 }
 
-export default function useAxios(args) {
+/*
+useAxios 
+- ARGS param currently only accepts url
+*/
+
+export const useMemoList = (list, compareFn = (a, b) => a === b) => {
+  const listRef = useRef(list);
+  const listChanged =
+    list.length !== listRef.current.length ||
+    list.some((arg, index) => !compareFn(arg, listRef.current[index]));
+  if (listChanged) {
+    // we can't do this in effects, which run too late.
+    listRef.current = list;
+  }
+  return listRef.current;
+};
+
+// Could maybe simplify parameter signature now that I think I have the deps handled.
+// (spreading the url object seems a little redundant)
+// I think it was the shape of the parameters (not consistent between objects/strings/arrays)
+// that was causing me so many problems.
+
+// eslint-disable-next-line import/prefer-default-export
+export function useAxios(url, options = {}) {
   const [state, dispatch] = useReducer(axiosReducer, initialState);
+
+  // Memoing the passed params seems to resolve the useEffect dependency issues
+  const config = useMemo(() => ({ ...url, ...options }), [url, options]);
 
   useEffect(() => {
     let cancelToken = null;
+    // eslint-disable-next-line no-console
+    console.log('effect called');
+    /* 
+    Only fetch when the url !== null
+    (the url param is set to null when we are waiting on
+    data from another instance of the hook) 
+     */
 
-    dispatch({ type: STATES.loading });
-
-    axios({
-      ...args,
-      cancelToken: new axios.CancelToken(token => {
-        cancelToken = token;
-      }),
-    })
-      .then(({ data }) => {
-        cancelToken = null;
-        dispatch({ type: STATES.success, payload: data });
+    if (config.url) {
+      axios(config.url, {
+        ...config.options,
+        cancelToken: new axios.CancelToken(token => {
+          cancelToken = token;
+        }),
       })
-      .catch(e => {
-        if (axios.isCancel(e)) return;
-
-        dispatch({ type: STATES.error });
-      });
+        .then(({ data }) => {
+          cancelToken = null;
+          dispatch({ type: STATES.success, payload: data });
+        })
+        .catch(e => {
+          if (axios.isCancel(e)) return;
+          dispatch({ type: STATES.error });
+        });
+    }
 
     return () => {
       if (cancelToken) {
         cancelToken();
       }
     };
-    // The effect dependencies not being an array literal is a problem
-    // but I don't see immediate side effects, and there isn't an easy way to fix it AFAIK.we ony
-    // we only want this to run once anyway?
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [config.url, config.options]);
 
   return state;
 }

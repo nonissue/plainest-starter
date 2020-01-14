@@ -1,11 +1,10 @@
 import { Route, Switch } from 'react-router-dom';
 import React from 'react';
 import styled from 'styled-components';
-import useAxios from './lib/useAxios';
 
 import './App.css';
-import { Error as ErrorPage, Header, Loading } from './components';
-import { About } from './pages';
+import { Error as ErrorPage, Footer, Header } from './components';
+import { About, PostsList, PostPage, UsersList, UserPage } from './pages';
 
 /*
 
@@ -23,45 +22,6 @@ darkmode lightmode?
 
 */
 
-const AppWrapper = styled.div`
-  text-align: center;
-  color: #032d4d;
-  font-family: 'Work Sans';
-
-  .url {
-    font-weight: 300;
-    display: inline;
-    padding: 3px 6px;
-    letter-spacing: 0.15em;
-    font-size: 0.45em;
-    border-radius: 0.25em;
-  }
-
-  .footer {
-    opacity: 0;
-    padding: 5px 0 5px 0;
-    display: flex;
-    justify-content: center;
-    margin-top: 2em;
-    margin-bottom: 2em;
-    font-size: 0.7em;
-    font-family: 'Lekton', monospace;
-    text-transform: uppercase;
-    animation: fadein 1s;
-    animation-delay: 3s;
-    animation-fill-mode: forwards;
-  }
-
-  @keyframes fadein {
-    from {
-      opacity: 0;
-    }
-    to {
-      opacity: 1;
-    }
-  }
-`;
-
 /*
 The same Grid component is serverd for both the root route and for the /posts/:id route
 This is so that, when a post is clicked, we can render the individual post modal above 
@@ -74,24 +34,17 @@ Issues: How we do serve 404 whne a visit to /post/:id isn't a valid post?
 */
 
 function App() {
-  const url = {
-    url: '/.netlify/functions/posts-fetch-all-mock',
-  };
-
-  const { data: posts, loading, error } = useAxios(url);
-
-  // console.log(loading);
-  // console.log(error);
-  // console.log(posts);
-
   return (
     <AppWrapper>
       <Header />
-      <div>
+      <ContentWrapper>
         <Switch>
           <Route exact path="/">
-            <Posts posts={posts} />
+            <PostsList />
           </Route>
+          <Route path="/posts/:id" component={PostPage} />
+          <Route exact path="/users" component={UsersList} />
+          <Route path="/users/:id" component={UserPage} />
           <Route path="/about">
             <About />
           </Route>
@@ -99,74 +52,28 @@ function App() {
             <ErrorPage error={{ code: 404, msg: 'Page not found!' }} />
           </Route>
         </Switch>
-      </div>
-      <div className="footer">Copyright 2019 © yoursite</div>
+      </ContentWrapper>
+      <Footer />
     </AppWrapper>
   );
 }
 
-function Posts({ posts }) {
-  return (
-    <StyledPosts>
-      {posts ? posts.map(post => <Post key={post.id} {...post} />) : 'Loading'}
-    </StyledPosts>
-  );
-}
+const AppWrapper = styled.div`
+  text-align: center;
+  font-family: ${props => props.theme.font};
+  color: ${props => props.theme.text};
+  /* background: ${props => props.theme.red}; */
 
-/*
-Tests:
-* check that error renders error comp
-* check that loading renders loading comp
-*/
-function Post({ id, title, userId, body }) {
-  const { data: user, loading, error } = useAxios({
-    url: `/.netlify/functions/users-fetch-mock/${userId}`,
-  });
-
-  if (error) {
-    return <h3>Error loading post!</h3>;
+  a {
+    /* ${props => props.theme.link} */
+    color: #333;
+    text-decoration: none;
   }
-  if (loading) {
-    return <Loading />;
-  }
-  return (
-    <StyledPost>
-      <h2>{title}</h2>
-      <h4>— by {user.name}</h4>
-      {/* <p>{body}</p> */}
-    </StyledPost>
-  );
-}
-
-const StyledPosts = styled.div`
-  /* text-align: left; */
-  max-width: 600px;
-  margin: 0 auto;
 `;
 
-const StyledPost = styled.div`
-  text-align: left;
-  line-height: 1.6em;
-  margin-bottom: 3em;
-  h2 {
-    font-weight: 700;
-    text-transform: capitalize;
-    line-height: 1.3em;
-    margin-bottom: 0.25em;
-    letter-spacing: -0.03em;
-    max-width: 80%;
-  }
-  h4 {
-    font-weight: 400;
-    text-transform: uppercase;
-    font-family: 'Lekton';
-    padding: 0;
-    margin: 0;
-    color: #555;
-    margin-left: 0.5em;
-  }
-  p {
-    font-size: 0.95em;
+const ContentWrapper = styled.div`
+  a {
+    ${props => props.theme.link}
   }
 `;
 
