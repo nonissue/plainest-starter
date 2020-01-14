@@ -16,8 +16,7 @@ fudge it by disabling eslint for that line. Though this may cause other problems
 
  */
 
-import { useReducer, useEffect, useCallback } from 'react';
-import hash from 'object-hash';
+import { useReducer, useEffect, useRef, useMemo } from 'react';
 
 import axios from 'axios';
 
@@ -47,20 +46,43 @@ useAxios
 - ARGS param currently only accepts url
 */
 
-// eslint-disable-next-line import/prefer-default-export
-export function useAxios(args) {
-  const [state, dispatch] = useReducer(axiosReducer, initialState);
+export const useMemoList = (list, compareFn = (a, b) => a === b) => {
+  const listRef = useRef(list);
+  const listChanged =
+    list.length !== listRef.current.length ||
+    list.some((arg, index) => !compareFn(arg, listRef.current[index]));
+  if (listChanged) {
+    // we can't do this in effects, which run too late.
+    listRef.current = list;
+  }
+  return listRef.current;
+};
 
-  const getConfig = useCallback(() => {
-    if (typeof args.test === 'object') {
-      console.log(hash(args.test));
-      return JSON.stringify(args.test);
-    }
-    return null;
-  }, [args.test]);
+// manually escape effect?
+
+// eslint-disable-next-line import/prefer-default-export
+export function useAxios(url, options = {}) {
+  const [state, dispatch] = useReducer(axiosReducer, initialState);
+  // const memoArgs = useMemoList(args);
+  const config = useMemo(() => ({ ...url, ...options }), [url, options]);
+  console.log(config);
+  // console.log(memoArgs);
+
+  // console.log(...memoArgs);
+
+  // const getConfig = useCallback(() => {
+  //   if (typeof args.test === 'object') {
+  //     console.log(hash(args.test));
+  //     return JSON.stringify(args.test);
+  //   }
+  //   console.log(typeof args.test);
+  //   return null;
+  // }, [args.test]);
 
   useEffect(() => {
     let cancelToken = null;
+    // let test = memoArgs[0];
+    // console.log(test);
     /* 
     Only fetch when the url !== null
     (the url param is set to null when we are waiting on
@@ -68,9 +90,9 @@ export function useAxios(args) {
      */
     // eslint-disable-next-line no-console
     console.log('effect called');
-    if (args.url) {
-      axios(args.url, {
-        ...getConfig(),
+    if (config.url) {
+      axios(config.url, {
+        ...config.options,
         cancelToken: new axios.CancelToken(token => {
           cancelToken = token;
         }),
@@ -84,13 +106,14 @@ export function useAxios(args) {
           dispatch({ type: STATES.error });
         });
     }
+
     return () => {
       if (cancelToken) {
         cancelToken();
       }
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [args.url, getConfig]);
+    //
+  }, [config.url, config.options]);
 
   return state;
 }
