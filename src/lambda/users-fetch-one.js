@@ -1,4 +1,4 @@
-const fakeUsers = require('./users.json');
+const fakeUsers = require('../data/users.json');
 
 /*
 RENAME THIS
@@ -21,11 +21,17 @@ exports.handler = async event => {
 
   if (user) {
     return {
+      headers: {
+        'Content-Type': 'text/json',
+      },
       statusCode: 200,
       body: JSON.stringify(user),
     };
   }
   return {
+    headers: {
+      'Content-Type': 'text/json',
+    },
     statusCode: 500,
     body: JSON.stringify({
       error: 'user not found',

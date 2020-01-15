@@ -41,8 +41,8 @@ const LogoWrapper = styled.div`
     margin: 0;
     font-size: 1.2em;
     text-transform: uppercase;
-    font-family: 'Bebas Neue', 'Helvetica', sans-serif;
     font-weight: 400;
+    font-family: ${props => props.theme.fonts.header};
     color: #fff;
   }
 
@@ -50,7 +50,7 @@ const LogoWrapper = styled.div`
     margin-top: 0em;
     margin-bottom: 0em;
     margin-left: 0.1em;
-    font-family: 'Lekton', sans-serif;
+    font-family: ${props => props.theme.fonts.mono};
     font-weight: 300;
     font-size: 0.6em;
     text-decoration: underline;
@@ -60,7 +60,7 @@ const LogoWrapper = styled.div`
 
   h3::before {
     content: '@';
-    font-family: 'Lekton', sans-serif;
+    font-family: ${props => props.theme.fonts.mono};
     font-weight: 500;
     text-decoration-color: transparent;
     text-decoration: none;

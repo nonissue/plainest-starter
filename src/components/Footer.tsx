@@ -11,17 +11,22 @@ const FooterWrapper = styled.div`
     color: #333;
   }
 
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 2.5rem;
+
   opacity: 0;
-  padding: 5px 0 5px 0;
+  /* padding: 5px 0 5px 0; */
   display: flex;
   justify-content: center;
-  margin-top: 2em;
-  margin-bottom: 2em;
+  /* margin-top: 2em; */
+  /* margin-bottom: 2em; */
   font-size: 0.7em;
-  font-family: 'Lekton', monospace;
+  font-family: ${props => props.theme.fonts.mono};
   text-transform: uppercase;
   animation: fadein 1s;
-  animation-delay: 0s;
+  animation-delay: 1s;
   animation-fill-mode: forwards;
 
   @keyframes fadein {

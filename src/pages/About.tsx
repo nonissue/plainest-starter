@@ -5,11 +5,11 @@ export const About: React.FC = () => {
   return (
     <AboutWrapper>
       <div className="about">
-        <h3>About</h3>
+        <h1>About</h1>
         <p>
           &quot;Boring photos of buildings&quot; <i>aka</i> &quot;A kuest for klout™️&quot; cooked
-          up sporadically by
-          <a href="https://www.instagram.com/christiandy/">@christiandy</a>
+          up sporadically by &nbsp;
+          <a href="https://www.instagram.com/christiandy/">@christiandy</a> &&&nbsp;
           <a href="https://www.instagram.com/christiandy/">@nonissue</a>
         </p>
       </div>
@@ -22,22 +22,32 @@ const AboutWrapper = styled.div`
   width: 50vw;
   margin: 0px auto;
   padding-top: 5vw;
-  max-width: 500px;
-  font-family: 'Work Sans', sans-serif;
-  line-height: 1.5em;
-  text-align: center;
-  font-family: 'Lekton', monospace;
+  max-width: 700px;
+  font-family: ${props => props.theme.fonts.body};
 
-  h3 {
-    font-family: 'Bebas Neue', 'Helvetica', sans-serif;
-    font-weight: 400;
-    letter-spacing: 0.1em;
+  text-align: center;
+  /* font-family: 'Lekton', monospace; */
+
+  i {
+    /* font-weight: 300; */
+    font-family: ${props => props.theme.fonts.mono};
+  }
+  p {
+    font-size: 2em;
+    line-height: 1.5em;
+  }
+  h1 {
+    /* font-family: 'Bebas Neue', 'Helvetica', sans-serif; */
+    font-weight: 800;
+    /* letter-spacing: 0.1em; */
+    font-size: 3em;
+
     text-align: center;
   }
 
   b {
     font-style: normal;
-    font-family: 'Lekton', monospace;
+    font-family: ${props => props.theme.fonts.mono};
     text-transform: uppercase;
     font-weight: 600;
   }

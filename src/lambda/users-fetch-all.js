@@ -1,4 +1,4 @@
-const fakeUsersMock = require('./users.json');
+const fakeUsersMock = require('../data/users.json');
 
 exports.handler = async () => {
   const users = fakeUsersMock;
@@ -13,6 +13,9 @@ exports.handler = async () => {
   }
 
   return {
+    headers: {
+      'Content-Type': 'text/json',
+    },
     statusCode: 200,
     body: JSON.stringify(users),
   };

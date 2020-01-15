@@ -57,6 +57,7 @@ export const useMemoList = (list, compareFn = (a, b) => a === b) => {
   }
   return listRef.current;
 };
+let debug = false;
 
 // Could maybe simplify parameter signature now that I think I have the deps handled.
 // (spreading the url object seems a little redundant)
@@ -65,15 +66,17 @@ export const useMemoList = (list, compareFn = (a, b) => a === b) => {
 
 // eslint-disable-next-line import/prefer-default-export
 export function useAxios(url, options = {}) {
+  debug = false;
   const [state, dispatch] = useReducer(axiosReducer, initialState);
 
   // Memoing the passed params seems to resolve the useEffect dependency issues
   const config = useMemo(() => ({ ...url, ...options }), [url, options]);
 
+  console.log('useAxios called.');
   useEffect(() => {
     let cancelToken = null;
     // eslint-disable-next-line no-console
-    console.log('effect called');
+
     /* 
     Only fetch when the url !== null
     (the url param is set to null when we are waiting on
@@ -89,7 +92,13 @@ export function useAxios(url, options = {}) {
       })
         .then(({ data }) => {
           cancelToken = null;
-          dispatch({ type: STATES.success, payload: data });
+          if (debug) {
+            setTimeout(() => {
+              dispatch({ type: STATES.success, payload: data });
+            }, 1000);
+          } else {
+            dispatch({ type: STATES.success, payload: data });
+          }
         })
         .catch(e => {
           if (axios.isCancel(e)) return;

@@ -36,12 +36,9 @@ export const PostsList: React.FC = () => {
 const StyledPosts = styled.div`
   max-width: 600px;
   margin: 0 auto;
-  a {
-    background: yellow;
-  }
 
   div:first-child {
-    margin-bottom: 4em;
+    margin-bottom: 2em;
     h2 {
       font-size: 2.5em;
       font-weight: 800;

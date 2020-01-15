@@ -13,11 +13,11 @@ const StyledError = styled(motion.div)`
   }
 
   h3 {
-    font-family: 'Bebas Neue', 'Helvetica', sans-serif;
+    font-family: ${props => props.theme.fonts.header};
   }
   h4 {
     font-weight: 400;
-    font-family: 'Open Sans', sans-serif;
+
     opacity: 0.7;
   }
   a,

@@ -9,7 +9,7 @@ const LoadingWrapper = styled.div`
   top: 50%;
   margin-top: -15px;
   width: 30px;
-  font-family: 'Lekton', 'Courier', monospace;
+  font-family: ${props => props.theme.fonts.mono};
   font-weight: 400;
   font-size: 2em;
   animation: fadein 1s;
@@ -31,7 +31,7 @@ export function Loading() {
   return (
     <LoadingWrapper>
       {/* <Oval /> */}
-      <BounceLoader size={50} color="#054B81" />
+      <BounceLoader size={50} color="#ccc" />
     </LoadingWrapper>
   );
 }

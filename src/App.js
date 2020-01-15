@@ -35,26 +35,28 @@ Issues: How we do serve 404 whne a visit to /post/:id isn't a valid post?
 
 function App() {
   return (
-    <AppWrapper>
-      <Header />
-      <ContentWrapper>
-        <Switch>
-          <Route exact path="/">
-            <PostsList />
-          </Route>
-          <Route path="/posts/:id" component={PostPage} />
-          <Route exact path="/users" component={UsersList} />
-          <Route path="/users/:id" component={UserPage} />
-          <Route path="/about">
-            <About />
-          </Route>
-          <Route>
-            <ErrorPage error={{ code: 404, msg: 'Page not found!' }} />
-          </Route>
-        </Switch>
-      </ContentWrapper>
-      <Footer />
-    </AppWrapper>
+    <>
+      <AppWrapper>
+        <Header />
+        <ContentWrapper>
+          <Switch>
+            <Route exact path="/">
+              <PostsList />
+            </Route>
+            <Route path="/posts/:id" component={PostPage} />
+            <Route exact path="/users" component={UsersList} />
+            <Route path="/users/:id" component={UserPage} />
+            <Route path="/about">
+              <About />
+            </Route>
+            <Route>
+              <ErrorPage error={{ code: 404, msg: 'Page not found!' }} />
+            </Route>
+          </Switch>
+        </ContentWrapper>
+        <Footer />
+      </AppWrapper>
+    </>
   );
 }
 
@@ -62,6 +64,13 @@ const AppWrapper = styled.div`
   text-align: center;
   font-family: ${props => props.theme.font};
   color: ${props => props.theme.text};
+  min-height: 100vh;
+  position: relative;
+  background: #FFFAF0;
+
+
+  /* padding-bottom: 2.5em; */
+  /* padding-bottom: 200px; */
   /* background: ${props => props.theme.red}; */
 
   a {
@@ -72,6 +81,7 @@ const AppWrapper = styled.div`
 `;
 
 const ContentWrapper = styled.div`
+  padding-bottom: 2.5rem;
   a {
     ${props => props.theme.link}
   }
