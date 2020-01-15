@@ -17,7 +17,6 @@ import * as serviceWorker from './serviceWorker';
 const link = `
   color: 'hsla(205.9, 85.3%, 40%, 1)';
   text-decoration: none;
-  
 `;
 
 const themes = {
@@ -45,4 +44,4 @@ ReactDOM.render(
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.
 // Learn more about service workers: http://bit.ly/CRA-PWA
-serviceWorker.register();
+serviceWorker.unregister();
