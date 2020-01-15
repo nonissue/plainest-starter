@@ -72,9 +72,10 @@ export function useAxios(url, options = {}) {
   // Memoing the passed params seems to resolve the useEffect dependency issues
   const config = useMemo(() => ({ ...url, ...options }), [url, options]);
 
-  console.log('useAxios called.');
+  debug && console.log('useAxios called.');
   useEffect(() => {
     let cancelToken = null;
+    debug && console.log('useEffect called');
     // eslint-disable-next-line no-console
 
     /* 
@@ -84,7 +85,7 @@ export function useAxios(url, options = {}) {
      */
 
     if (config.url) {
-      axios(config.url, {
+      axios(`${config.url}`, {
         ...config.options,
         cancelToken: new axios.CancelToken(token => {
           cancelToken = token;
@@ -102,7 +103,7 @@ export function useAxios(url, options = {}) {
         })
         .catch(e => {
           if (axios.isCancel(e)) return;
-          dispatch({ type: STATES.error });
+          dispatch({ type: STATES.error, payload: { msg: e.message, code: e.code || 500 } });
         });
     }
 
