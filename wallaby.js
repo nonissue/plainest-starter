@@ -17,7 +17,6 @@ module.exports = function(wallaby) {
       { pattern: 'src/setupTests.ts', instrument: false },
       'src/**/*.+(js|jsx|ts|tsx|json|snap|css|less|sass|scss|jpg|jpeg|gif|png|svg)',
       'src/*.+(ts|tsx|js|jsx',
-      // 'src/**/*.+(js|jsx)',
       '!src/**/*.test.+(js|jsx|ts|tsx)',
       '!src/*.test.+(js|jsx|ts|tsx)',
     ],
