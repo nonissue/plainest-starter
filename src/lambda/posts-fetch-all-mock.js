@@ -1,7 +1,10 @@
 const fakePostsMock = require('../data/posts.json');
 
+// Object.freeze(fakePostsMock);
+
 exports.handler = async () => {
-  const posts = fakePostsMock.slice(0, 15);
+  // const posts = shuffle(fakePostsMock).slice(0, 15);
+  const posts = fakePostsMock;
 
   if (!posts) {
     return {
