@@ -37,7 +37,7 @@ const StyledPosts = styled.div`
   max-width: 600px;
   margin: 0 auto;
   a {
-    background: orange;
+    background: yellow;
   }
 
   div:first-child {
