@@ -38,6 +38,7 @@ function App() {
     <>
       <AppWrapper>
         <Header />
+
         <ContentWrapper>
           <Switch>
             <Route exact path="/">
@@ -54,27 +55,21 @@ function App() {
             </Route>
           </Switch>
         </ContentWrapper>
-        <Footer />
+        {/* <Footer /> */}
       </AppWrapper>
     </>
   );
 }
 
 const AppWrapper = styled.div`
-  text-align: center;
+  /* text-align: center; */
   font-family: ${props => props.theme.font};
   color: ${props => props.theme.text};
   min-height: 100vh;
   position: relative;
-  background: #FFFAF0;
-
-
-  /* padding-bottom: 2.5em; */
-  /* padding-bottom: 200px; */
-  /* background: ${props => props.theme.red}; */
+  background: #f7fafc;
 
   a {
-    /* ${props => props.theme.link} */
     color: #333;
     text-decoration: none;
   }
