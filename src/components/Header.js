@@ -42,8 +42,6 @@ const StyledHeader = styled.header`
   position: sticky;
   top: 0;
   z-index: 1;
-  background: hsla(100, 0%, 100%, 0.7);
-  background: hsla(39.7, 100%, 97.1%, 0.7);
 
   -webkit-backdrop-filter: blur(5px);
   backdrop-filter: blur(5px);
