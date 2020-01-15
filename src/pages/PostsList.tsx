@@ -35,10 +35,7 @@ export const PostsList: React.FC = () => {
   return (
     <StyledPosts>
       {shuffledPosts &&
-        shuffledPosts.map((post: Post) => (
-          /* eslint-disable-next-line react/jsx-props-no-spreading */
-          <PostsListItem key={post.id} {...post} />
-        ))}
+        shuffledPosts.map((post: Post) => <PostsListItem key={post.id} {...post} />)}
     </StyledPosts>
   );
 };

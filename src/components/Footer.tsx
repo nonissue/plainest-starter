@@ -1,9 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-export const Footer: React.FC = () => {
-  return <FooterWrapper>Copyright 2019 © yoursite</FooterWrapper>;
-};
+export const Footer = () => <FooterWrapper>Copyright 2019 © yoursite</FooterWrapper>;
 
 const FooterWrapper = styled.div`
   a {
@@ -17,11 +15,8 @@ const FooterWrapper = styled.div`
   height: 2.5rem;
 
   opacity: 0;
-  /* padding: 5px 0 5px 0; */
   display: flex;
   justify-content: center;
-  /* margin-top: 2em; */
-  /* margin-bottom: 2em; */
   font-size: 0.7em;
   font-family: ${props => props.theme.fonts.mono};
   text-transform: uppercase;

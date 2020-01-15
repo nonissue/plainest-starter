@@ -1,9 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { BrowserRouter as Router } from 'react-router-dom';
 import { ThemeProvider } from 'styled-components';
-
-import App from './App';
+import About from './About';
 
 const link = `
   color: 'hsla(205.9, 85.3%, 40%, 1)';
@@ -32,12 +30,14 @@ const themes = {
 it('renders without crashing', () => {
   const div = document.createElement('div');
   ReactDOM.render(
-    <Router initialEntries={['./']}>
-      <ThemeProvider theme={themes.light}>
-        <App />
-      </ThemeProvider>
-    </Router>,
+    <ThemeProvider theme={themes.light}>
+      <About />
+    </ThemeProvider>,
     div,
   );
   ReactDOM.unmountComponentAtNode(div);
+});
+
+it('fails a test', () => {
+  expect(true).toBe(false);
 });

@@ -1,6 +1,16 @@
 /* eslint-disable camelcase */
 const fakePostsMock = require('../data/posts.json');
 
+/* 
+Damn that's a lot of tricky logic to implement...
+
+IMPORTANT: This should all just be in a generic fetch posts endpoint
+that accepts form-encoded optional params
+
+This shouldn't be using POST, should be using form-encoded data.
+
+*/
+
 /** 
 Endpoint for fetching some posts
 Param structure inspired by stripes api documentation
@@ -13,12 +23,6 @@ Param structure inspired by stripes api documentation
  * Returns
  * @param  {object} response - A response object with info about the request. Fetched posts are available in response.body
  * @param  {object} error - HTTP error
-*/
-
-/* 
-Damn that's a lot of tricky logic to implement...
-
-This shouldn't be using POST, should be using form-encoded data.
 */
 
 exports.handler = async event => {

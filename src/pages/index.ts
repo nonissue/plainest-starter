@@ -1,5 +1,5 @@
-import { About } from './About.tsx';
-import { PostsList } from './PostsList.tsx';
+import { About } from './About';
+import { PostsList } from './PostsList';
 import { PostsListItem } from './PostsListItem';
 import { PostPage } from './PostPage';
 import { UsersList } from './UsersList';

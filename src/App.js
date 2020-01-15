@@ -1,9 +1,9 @@
-import { Route, Switch } from 'react-router-dom';
 import React from 'react';
 import styled from 'styled-components';
+import { Route, Switch } from 'react-router-dom';
 
 import './App.css';
-import { Error as ErrorPage, Footer, Header } from './components';
+import { Header } from './components';
 import { About, PostsList, PostPage, UsersList, UserPage } from './pages';
 
 /*
@@ -19,10 +19,6 @@ font-families?
 box-shadows?
 
 darkmode lightmode?
-
-*/
-
-/*
 The same Grid component is serverd for both the root route and for the /posts/:id route
 This is so that, when a post is clicked, we can render the individual post modal above 
 the rest of the posts AND update the url at the same time.
@@ -31,38 +27,31 @@ ABOVE the existing post grid.
 
 Issues: How we do serve 404 whne a visit to /post/:id isn't a valid post?
 
+
 */
 
-function App() {
+const App = () => {
   return (
-    <>
-      <AppWrapper>
-        <Header />
-
-        <ContentWrapper>
-          <Switch>
-            <Route exact path="/">
-              <PostsList />
-            </Route>
-            <Route path="/posts/:id" component={PostPage} />
-            <Route exact path="/users" component={UsersList} />
-            <Route path="/users/:id" component={UserPage} />
-            <Route path="/about">
-              <About />
-            </Route>
-            <Route>
-              <ErrorPage error={{ code: 404, msg: 'Page not found!' }} />
-            </Route>
-          </Switch>
-        </ContentWrapper>
-        {/* <Footer /> */}
-      </AppWrapper>
-    </>
+    <AppWrapper>
+      <Header />
+      <ContentWrapper>
+        <Switch>
+          <Route exact path="/">
+            <PostsList />
+          </Route>
+          <Route path="/posts/:id" component={PostPage} />
+          <Route exact path="/users" component={UsersList} />
+          <Route path="/users/:id" component={UserPage} />
+          <Route path="/about">
+            <About />
+          </Route>
+        </Switch>
+      </ContentWrapper>
+    </AppWrapper>
   );
-}
+};
 
 const AppWrapper = styled.div`
-  /* text-align: center; */
   font-family: ${props => props.theme.font};
   color: ${props => props.theme.text};
   min-height: 100vh;

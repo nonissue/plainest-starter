@@ -1,6 +1,5 @@
 import React from 'react';
 import styled from 'styled-components';
-import BounceLoader from 'react-spinners/BounceLoader';
 
 const SpinkitChaseWrapper = styled.div`
   width: 40px;
@@ -101,7 +100,6 @@ export const SpinkitChase = () => (
 
 const LoadingWrapper = styled.div`
   position: absolute;
-  /* background: #333; */
   left: 50%;
   margin-left: -15px;
   top: 50%;
@@ -128,7 +126,6 @@ export function Loading() {
   return (
     <LoadingWrapper>
       <SpinkitChase />
-      {/* <BounceLoader size={50} color="#333" /> */}
     </LoadingWrapper>
   );
 }

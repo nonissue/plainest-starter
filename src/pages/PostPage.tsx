@@ -175,37 +175,18 @@ const StyledPost = styled.div`
     padding: 0;
     margin: 0;
     color: #cbd5e0;
-    /* color: #cbd5e0; */
 
     a {
       background: transparent;
       font-family: ${props => props.theme.fonts.body};
-      /* font-weight: 500; */
+
       box-shadow: none;
-      /* border: none; */
+
       color: #718096;
       color: #a0aec0;
     }
   }
 
-  /* h1 {
-    font-weight: 700;
-    text-transform: capitalize;
-    line-height: 1.2em;
-    margin-bottom: 0.2em;
-    margin-top: 0em;
-    letter-spacing: -0.03em;
-    text-align: left;
-  }
-  h4 {
-    font-weight: 300;
-    text-transform: uppercase;
-    padding: 0;
-    margin: 0;
-    color: #555;
-    margin-left: 0.5em;
-    text-align: left;
-  } */
   p {
     font-size: 0.95em;
     line-height: 1.6em;

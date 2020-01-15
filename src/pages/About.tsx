@@ -9,7 +9,7 @@ export const About: React.FC = () => {
         <p>
           &quot;Boring photos of buildings&quot; <i>aka</i> &quot;A kuest for klout™️&quot; cooked
           up sporadically by &nbsp;
-          <a href="https://www.instagram.com/christiandy/">@christiandy</a> &&&nbsp;
+          <a href="https://www.instagram.com/christiandy/">@christiandy</a> &nbsp;
           <a href="https://www.instagram.com/christiandy/">@nonissue</a>
         </p>
       </div>
@@ -26,10 +26,8 @@ const AboutWrapper = styled.div`
   font-family: ${props => props.theme.fonts.body};
 
   text-align: center;
-  /* font-family: 'Lekton', monospace; */
 
   i {
-    /* font-weight: 300; */
     font-family: ${props => props.theme.fonts.mono};
   }
   p {
@@ -37,11 +35,8 @@ const AboutWrapper = styled.div`
     line-height: 1.5em;
   }
   h1 {
-    /* font-family: 'Bebas Neue', 'Helvetica', sans-serif; */
     font-weight: 800;
-    /* letter-spacing: 0.1em; */
     font-size: 3em;
-
     text-align: center;
   }
 
@@ -57,7 +52,7 @@ const AboutWrapper = styled.div`
     color: inherit;
     text-decoration: underline;
     text-decoration-color: hsla(205.9, 92.3%, 40%, 0.5);
-    text-underline-offset: 0.1rem;
+    /* text-underline-offset: 0.1rem; */
     font-weight: 700;
     transition: all 0.1s ease-out;
   }
