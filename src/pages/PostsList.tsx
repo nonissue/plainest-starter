@@ -1,7 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
 import { useAxios } from '../lib/useAxios';
-import { Loading, PostsListItem } from '../components';
+import { shuffle } from '../utils/shuffle';
+import { Loading } from '../components';
+import { PostsListItem } from './PostsListItem';
 
 type Post = {
   title: string;
@@ -17,18 +19,26 @@ export const PostsList: React.FC = () => {
 
   const { data: posts, loading, error } = useAxios(url);
 
+  let shuffledPosts;
+
+  if (posts) {
+    shuffledPosts = shuffle(posts).slice(0, 15);
+  }
+
   if (error) {
     return <div>Error!</div>;
+  }
+  if (loading) {
+    return <Loading />;
   }
 
   return (
     <StyledPosts>
-      {!loading ? (
-        /* eslint-disable-next-line react/jsx-props-no-spreading */
-        posts.map((post: Post) => <PostsListItem key={post.id} {...post} />)
-      ) : (
-        <Loading />
-      )}
+      {shuffledPosts &&
+        shuffledPosts.map((post: Post) => (
+          /* eslint-disable-next-line react/jsx-props-no-spreading */
+          <PostsListItem key={post.id} {...post} />
+        ))}
     </StyledPosts>
   );
 };
@@ -37,8 +47,9 @@ const StyledPosts = styled.div`
   max-width: 600px;
   margin: 0 auto;
 
-  div:first-child {
+  article:first-child {
     margin-bottom: 2em;
+    margin-top: 2em;
     h2 {
       font-size: 2.5em;
       font-weight: 800;
@@ -50,7 +61,8 @@ const StyledPosts = styled.div`
     h4 {
       text-align: center;
       margin-left: 0;
-      margin-top: 1em;
+      margin-top: 0.5em;
+      margin-bottom: 1rem;
       font-size: 1.2em;
     }
   }
