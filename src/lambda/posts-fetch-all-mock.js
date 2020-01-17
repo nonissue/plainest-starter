@@ -19,22 +19,26 @@ exports.handler = async event => {
     event.headers.host === 'localhost:9000'
       ? 'http://localhost:9000/.netlify/functions'
       : 'http://start-plain.netlify.com/.netlify/functions';
-  const postsData = fakePostsMock.slice(0, 5);
+  const postsData = fakePostsMock.slice(0, 50);
   const postsWithUsers = async () => {
     return Promise.all(
-      postsData.slice(0, 5).map(async post => ({
+      postsData.map(async post => ({
         ...post,
         user: await getUser(baseURL, post.userId),
       })),
     );
   };
 
+  const postsWithUsersFast = () => {
+    return postsData.map(post => ({
+      ...post,
+      user: { name: 'test' },
+    }));
+  };
+
   let posts;
   try {
-    posts = await postsWithUsers();
-    // console.log(typeof posts);
-    console.log(posts);
-    // console.log(posts[0].user);
+    posts = postsData;
   } catch (e) {
     console.log(e);
   }
@@ -57,6 +61,6 @@ exports.handler = async event => {
       'Content-Type': 'text/json',
     },
     statusCode: 200,
-    body: JSON.stringify(posts),
+    body: JSON.stringify(postsData),
   };
 };

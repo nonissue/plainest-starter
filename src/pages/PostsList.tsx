@@ -20,7 +20,7 @@ export const PostsList: React.FC = () => {
   };
 
   const { data: posts, loading, error } = useAxios(url);
-  const { data } = useAxios(url);
+  // const { data } = useAxios(url);
 
   // if (data) {
   //   console.log(data);
@@ -30,6 +30,7 @@ export const PostsList: React.FC = () => {
 
   if (posts) {
     shuffledPosts = shuffle(posts).slice(0, 5);
+    // shuffledPosts = posts;
     console.log(shuffledPosts);
   }
 
@@ -43,9 +44,7 @@ export const PostsList: React.FC = () => {
   return (
     <StyledPosts>
       {shuffledPosts &&
-        shuffledPosts.map((post: Post) => (
-          <PostsListItem key={post.id} {...post} user={post.user} />
-        ))}
+        shuffledPosts.map((post: Post) => <PostsListItem key={post.id} {...post} />)}
     </StyledPosts>
   );
 };
