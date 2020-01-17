@@ -12,6 +12,8 @@ const getUser = async (baseURL, id) =>
 This is very slow if we fetch users while constructing the mosts object
 Slower than if the component makes the user request itself
 Hmm
+
+IN PROGRESS
 */
 
 exports.handler = async event => {

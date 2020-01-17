@@ -14,6 +14,8 @@ to fix the eslint hook warning, as if we pass args in an array literal,
 hook is called infiitely. Just don't want to add a dependency when we can
 fudge it by disabling eslint for that line. Though this may cause other problems.
 
+UPDATE: resolved using useMemo... I think.
+
  */
 
 import { useReducer, useEffect, useRef, useMemo } from 'react';

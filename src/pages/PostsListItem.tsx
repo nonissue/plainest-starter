@@ -27,12 +27,6 @@ export const PostsListItem: React.FC<PostProps> = ({ id, title, body, userId }: 
     url: `/.netlify/functions/users-fetch-one/${userId}`,
   });
 
-  // console.log(`Post ${id} rendering. \nUser loaded: ${user ? 'true' : 'false'}`);
-  // console.log(user);
-
-  // const error = false;
-  // const loading = false;
-
   if (error) {
     return <h3>Error loading post!</h3>;
   }

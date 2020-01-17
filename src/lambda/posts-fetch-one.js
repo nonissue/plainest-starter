@@ -15,11 +15,9 @@ export async function handler(event) {
   const id = getId(event.path);
   const post = posts.find(p => p.id === id);
 
-  if (event.body) {
-    console.log(event.body);
-  }
-
-  // console.log(post);
+  // if (event.body) {
+  //   console.log(event.body);
+  // }
 
   if (post) {
     // throw new Error('Posts fetched error', 'Error fetching posts');
