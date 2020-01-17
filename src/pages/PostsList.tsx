@@ -10,19 +10,27 @@ type Post = {
   id: number;
   body: string;
   userId: number;
+  user: any;
 };
 
 export const PostsList: React.FC = () => {
+  console.log('rerender!');
   const url = {
     url: '/.netlify/functions/posts-fetch-all-mock',
   };
 
   const { data: posts, loading, error } = useAxios(url);
+  const { data } = useAxios(url);
+
+  // if (data) {
+  //   console.log(data);
+  // }
 
   let shuffledPosts;
 
   if (posts) {
-    shuffledPosts = shuffle(posts).slice(0, 15);
+    shuffledPosts = shuffle(posts).slice(0, 5);
+    console.log(shuffledPosts);
   }
 
   if (error) {
@@ -35,7 +43,9 @@ export const PostsList: React.FC = () => {
   return (
     <StyledPosts>
       {shuffledPosts &&
-        shuffledPosts.map((post: Post) => <PostsListItem key={post.id} {...post} />)}
+        shuffledPosts.map((post: Post) => (
+          <PostsListItem key={post.id} {...post} user={post.user} />
+        ))}
     </StyledPosts>
   );
 };

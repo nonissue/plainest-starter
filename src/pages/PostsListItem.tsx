@@ -17,20 +17,31 @@ type PostProps = {
   title: string;
   userId: number;
   body: string;
+  user: any;
 };
 
-export const PostsListItem: React.FC<PostProps> = ({ id, title, body, userId }: PostProps) => {
+export const PostsListItem: React.FC<PostProps> = ({
+  id,
+  title,
+  body,
+  userId,
+  user,
+}: PostProps) => {
   // console.log('Post ' + id + ' rendering...');
 
-  const { data: user, loading, error } = useAxios({
-    url: `/.netlify/functions/users-fetch-one/${userId}`,
-  });
+  // const { data: user, loading, error } = useAxios({
+  //   url: `/.netlify/functions/users-fetch-one/${userId}`,
+  // });
 
-  console.log(`Post ${id} rendering. \nUser loaded: ${user ? 'true' : 'false'}`);
+  // console.log(`Post ${id} rendering. \nUser loaded: ${user ? 'true' : 'false'}`);
+  console.log(user);
 
-  if (error) {
-    return <h3>Error loading post!</h3>;
-  }
+  // const error = false;
+  // const loading = false;
+
+  // if (error) {
+  //   return <h3>Error loading post!</h3>;
+  // }
   // if (loading) {
   //   return <>Loading...</>;
   // }
@@ -41,7 +52,7 @@ export const PostsListItem: React.FC<PostProps> = ({ id, title, body, userId }: 
           <Link to={`/posts/${id}`}>{title}</Link>
         </h2>
         <h4>
-          — {loading ? 'Loading author name...' : <Link to={`/users/${user.id}`}>{user.name}</Link>}
+          — {!user ? 'Loading author name...' : <Link to={`/users/${user.id}`}>{user.name}</Link>}
         </h4>
         <p>{body}</p>
       </>

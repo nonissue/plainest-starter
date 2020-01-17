@@ -4,15 +4,16 @@
  * finds user when user with id exists, else returns 500
  */
 
-const fakePosts = require('../data/posts.json');
+const posts = require('../data/posts.json');
+// import { posts } from '../data/posts.json';
 
 function getId(urlPath) {
   return Number(urlPath.match(/([^/]*)\/*$/)[0]);
 }
 
-exports.handler = async event => {
+export async function handler(event) {
   const id = getId(event.path);
-  const post = fakePosts.find(p => p.id === id);
+  const post = posts.find(p => p.id === id);
 
   if (event.body) {
     console.log(event.body);
@@ -44,4 +45,4 @@ exports.handler = async event => {
       error: 'post not found',
     }),
   };
-};
+}
