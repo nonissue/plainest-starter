@@ -1,11 +1,15 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Link, useLocation } from 'react-router-dom';
-import { AiOutlineLeft as Back, AiOutlineQuestionCircle as Question } from 'react-icons/ai';
+import {
+  AiOutlineLeft as Back,
+  AiOutlineQuestionCircle as Question,
+  AiOutlineMenu as MenuIcon,
+} from 'react-icons/ai';
 
 import { Logo } from './Logo';
 
-export function Header() {
+export const Header = () => {
   const location = useLocation();
   return (
     <StyledHeader>
@@ -21,12 +25,12 @@ export function Header() {
         </div>
       )}
 
-      <Logo showImage={false} />
+      <Logo />
 
       {!(location.pathname === '/about') ? (
         <div className="control">
           <Link to="/about">
-            <Question />
+            <MenuIcon />
           </Link>
         </div>
       ) : (
@@ -36,7 +40,7 @@ export function Header() {
       )}
     </StyledHeader>
   );
-}
+};
 
 const StyledHeader = styled.header`
   position: sticky;
@@ -68,8 +72,8 @@ const StyledHeader = styled.header`
     a,
     a:link,
     a:visited {
-      color: #aaa;
-      opacity: 9;
+      color: #555;
+      /* opacity: 9; */
       text-decoration: none;
       transition: color 0.2s ease-out;
     }
