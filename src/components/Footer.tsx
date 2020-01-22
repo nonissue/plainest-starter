@@ -1,7 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
 
-export const Footer = () => <FooterWrapper>Copyright 2019 © yoursite</FooterWrapper>;
+export const Footer = () => {
+  return <FooterWrapper>Copyright 2019 © yoursite</FooterWrapper>;
+};
 
 const FooterWrapper = styled.div`
   a {
