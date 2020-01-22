@@ -31,6 +31,7 @@ const themes = {
       body: `'Work Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif`,
       mono: `'Lekton', Monaco, 'Lucida Console',  monospace`,
       header: `'Bebas Neue', 'Work Sans', Helvetica, sans-serif`,
+      alt: `'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif`,
     },
   },
   dark: {
