@@ -14,9 +14,8 @@ type Post = {
 };
 
 export const PostsList: React.FC = () => {
-  console.log('rerender!');
   const url = {
-    url: '/.netlify/functions/posts?starting_from=12',
+    url: '/.netlify/functions/posts?with_users=1',
   };
 
   const { data: posts, loading, error } = useAxios(url);
