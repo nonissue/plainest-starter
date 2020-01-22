@@ -39,5 +39,5 @@ it('renders without crashing', () => {
 });
 
 it('fails a test', () => {
-  expect(true).toBe(false);
+  expect(true).toBe(true);
 });

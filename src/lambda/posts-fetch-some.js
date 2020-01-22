@@ -26,9 +26,9 @@ Param structure inspired by stripes api documentation
 */
 
 exports.handler = async event => {
-  if (event.httpMethod !== 'POST') {
-    return { statusCode: 405, body: 'Method Not Allowed' };
-  }
+  // if (event.httpMethod !== 'POST') {
+  //   return { statusCode: 405, body: 'Method Not Allowed' };
+  // }
 
   let options = {};
   let starting_from = 0;
