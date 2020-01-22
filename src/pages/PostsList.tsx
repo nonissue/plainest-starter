@@ -16,46 +16,52 @@ type Post = {
 export const PostsList: React.FC = () => {
   console.log('rerender!');
   const url = {
-    url: '/.netlify/functions/posts-fetch-all-mock',
+    url: '/.netlify/functions/posts?starting_from=12',
   };
 
   const { data: posts, loading, error } = useAxios(url);
+
+  // console.log(posts);
   // const { data } = useAxios(url);
 
   // if (data) {
   //   console.log(data);
   // }
 
-  let shuffledPosts;
+  // let shuffledPosts;
 
-  if (posts) {
-    shuffledPosts = shuffle(posts).slice(0, 5);
-    // shuffledPosts = posts;
-    console.log(shuffledPosts);
-  }
+  // if (posts) {
+  //   shuffledPosts = shuffle(posts).slice(0, 15);
+  //   console.log(shuffledPosts);
+  // }
+
+  // let shuffledPosts = posts;
 
   if (error) {
     return <div>Error!</div>;
   }
+
   if (loading) {
     return <Loading />;
   }
 
   return (
     <StyledPosts>
-      {shuffledPosts &&
-        shuffledPosts.map((post: Post) => <PostsListItem key={post.id} {...post} />)}
+      {posts &&
+        posts.map((post: Post) => <PostsListItem key={post.id} user={post.user} {...post} />)}
     </StyledPosts>
   );
 };
 
 const StyledPosts = styled.div`
-  max-width: 600px;
+  max-width: 800px;
   margin: 0 auto;
 
   article:first-child {
+    max-width: 700px;
     margin-bottom: 2em;
     margin-top: 2em;
+
     h2 {
       font-size: 2.5em;
       font-weight: 800;
@@ -67,8 +73,6 @@ const StyledPosts = styled.div`
     h4 {
       text-align: center;
       margin-left: 0;
-      margin-top: 0.5em;
-      margin-bottom: 1rem;
       font-size: 1.2em;
     }
   }
