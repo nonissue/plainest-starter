@@ -31,13 +31,14 @@ export const UserPage: React.FC = () => {
 
   const { data: allposts, loading, error } = useAxios(url);
 
-  console.log(allposts);
+  // console.log(allposts);
 
   let posts = null;
   if (allposts) {
     posts = allposts.filter((post: any) => post.userId === Number(id));
   }
-  console.log(posts);
+
+  // console.log(posts);
 
   return (
     <StyledUser>
@@ -51,7 +52,7 @@ export const UserPage: React.FC = () => {
                 <i>Email:</i> {userData.email}
               </li>
               <li>
-                <i>Website:</i> http://{userData.website}
+                <i>Website:</i> {`http://${userData.website}`}
               </li>
             </ul>
           </div>

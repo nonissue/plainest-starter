@@ -2,7 +2,7 @@ import axios from 'axios';
 
 const fakePostsMock = require('../data/posts.json');
 
-const getUser = async (baseURL, id) =>
+const getUser = (baseURL, id) =>
   axios.get(`${baseURL}/users-fetch-one/${id}`).then(res => {
     return res.data;
   });
@@ -11,9 +11,11 @@ const getUser = async (baseURL, id) =>
 
 This is very slow if we fetch users while constructing the mosts object
 Slower than if the component makes the user request itself
-Hmm
+(Total fetch time for all posts with user info: 500ms-900ms)
 
-IN PROGRESS
+Update: Hmm, maybe not that slow. Postman shows that each individual
+user request is 10-30 ms, so it makes sense that a full fetch of all info
+would be a few hundred MS
 */
 
 exports.handler = async event => {
@@ -21,7 +23,8 @@ exports.handler = async event => {
     event.headers.host === 'localhost:9000'
       ? 'http://localhost:9000/.netlify/functions'
       : 'http://start-plain.netlify.com/.netlify/functions';
-  const postsData = fakePostsMock.slice(0, 50);
+  const postsData = fakePostsMock.slice(0, 100);
+
   const postsWithUsers = async () => {
     return Promise.all(
       postsData.map(async post => ({
@@ -31,21 +34,14 @@ exports.handler = async event => {
     );
   };
 
-  const postsWithUsersFast = () => {
-    return postsData.map(post => ({
-      ...post,
-      user: { name: 'test' },
-    }));
-  };
-
   let posts;
   try {
-    posts = postsData;
+    posts = await postsWithUsers();
   } catch (e) {
-    console.log(e);
+    throw new Error('Error fetching posts author info');
+    // console.log(e);
   }
 
-  // posts = postsData;
   if (!posts) {
     return {
       headers: {
@@ -63,6 +59,6 @@ exports.handler = async event => {
       'Content-Type': 'text/json',
     },
     statusCode: 200,
-    body: JSON.stringify(postsData),
+    body: JSON.stringify(posts),
   };
 };

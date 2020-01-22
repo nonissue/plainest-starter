@@ -1,12 +1,13 @@
 import axios from 'axios';
 // import { BrowserRouter as Router } from 'react-router-dom';
 import { handler } from '../posts-fetch-all-mock';
+// const handler = require('../posts-fetch-all-mock');
 
 jest.mock('axios');
 
 describe('fetchData', () => {
   it('fetches successfully data from an API', async () => {
-    const data = await handler();
+    const data = await handler({ headers: 'test' });
     // console.log(JSON.parse(data.body));
     // console.log(typeof data.body);
     axios.get.mockImplementationOnce(() => Promise.resolve(data));

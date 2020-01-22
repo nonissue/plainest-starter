@@ -131,7 +131,7 @@ export const PostPage: React.FC = () => {
           <Link to={`/posts/${post.data.id}`}>{post.data.title}</Link>
         </h2>
         <h4>
-          — by <Link to={`/users/${author.data.id}`}>{author.data.name}</Link>
+          by <Link to={`/users/${author.data.id}`}>{author.data.name}</Link>
         </h4>
         <p>{`${post.data.body}`.repeat(2)}</p>
         <p>{`${post.data.body}`.repeat(3)}</p>
@@ -191,6 +191,7 @@ const StyledPost = styled.div`
     font-size: 0.95em;
     line-height: 1.6em;
     margin-bottom: 0;
+    font-family: ${props => props.theme.fonts.alt};
 
     :first-letter {
       text-transform: capitalize;
