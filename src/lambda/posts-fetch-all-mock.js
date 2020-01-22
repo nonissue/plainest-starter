@@ -2,10 +2,16 @@ import axios from 'axios';
 
 const fakePostsMock = require('../data/posts.json');
 
-const getUser = (baseURL, id) =>
-  axios.get(`${baseURL}/users-fetch-one/${id}`).then(res => {
-    return res.data;
-  });
+export const getUser = (baseURL, id) =>
+  axios
+    .get(`${baseURL}/users-fetch-one/${id}`)
+    .then(res => {
+      return res.data;
+    })
+    .catch(e => {
+      console.log('error fetching users');
+      return e;
+    });
 
 /* 
 
@@ -18,11 +24,23 @@ user request is 10-30 ms, so it makes sense that a full fetch of all info
 would be a few hundred MS
 */
 
+export const getBaseURL = host => {
+  let baseURL;
+  if (host === 'localhost:9000') {
+    baseURL = 'http://localhost:9000/.netlify/functions';
+  } else {
+    baseURL = 'http://start-plain.netlify.com/.netlify/functions';
+  }
+  return baseURL;
+};
+
 exports.handler = async event => {
+  // const baseURL = getBaseURL(event.headers.host);
   const baseURL =
     event.headers.host === 'localhost:9000'
       ? 'http://localhost:9000/.netlify/functions'
       : 'http://start-plain.netlify.com/.netlify/functions';
+
   const postsData = fakePostsMock.slice(0, 100);
 
   const postsWithUsers = async () => {
@@ -37,6 +55,7 @@ exports.handler = async event => {
   let posts;
   try {
     posts = await postsWithUsers();
+    // posts = postsData;
   } catch (e) {
     throw new Error('Error fetching posts author info');
     // console.log(e);
