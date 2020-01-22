@@ -24,15 +24,18 @@ interface Address {
   zipcode: string;
   geo: Geo;
 }
+
 interface Geo {
   lat: string;
   lng: string;
 }
+
 interface Company {
   name: string;
   catchPhrase: string;
   bs: string;
 }
+
 interface Author extends Response {
   data: {
     id: number;
@@ -68,28 +71,18 @@ export const UserPage: React.FC = () => {
     url: `/.netlify/functions/users-fetch-one/${id}`,
   }));
 
-  const url = {
-    url: '/.netlify/functions/posts-fetch-all-mock',
-  };
-
   ({ data: posts.data, loading: posts.loading, error: posts.error } = useAxios({
     url: '/.netlify/functions/posts-fetch-all-mock',
   }));
-
-  // const { data: allposts, loading, error } = useAxios(url);
-
-  // console.log(allposts);
 
   let userPosts = null;
   if (posts.data) {
     userPosts = posts.data.filter((post: any) => post.userId === Number(id));
   }
 
-  if (posts.loading || author.loading) {
+  if (author.loading) {
     return <Loading />;
   }
-
-  // console.log(posts);
 
   return (
     <StyledUser>
@@ -110,11 +103,16 @@ export const UserPage: React.FC = () => {
           <div className="users-posts">
             <hr />
             <h5>Posts by {author.data.name}</h5>
-            {userPosts &&
+            {userPosts ? (
               userPosts.map((post: any) => (
                 /* eslint-disable-next-line react/jsx-props-no-spreading */
                 <PostsListItem key={post.id} {...post} />
-              ))}
+              ))
+            ) : (
+              <>
+                <Loading />
+              </>
+            )}
           </div>
         </>
       ) : (

@@ -1,5 +1,11 @@
 import React from 'react';
 import styled from 'styled-components';
+/*
+TODO:
+
+Make this inline-able? So that it will render within container rather than in middle of viewport
+Change LoadingWrapper position to relative achieves what I want
+*/
 
 const SpinkitChaseWrapper = styled.div`
   width: 40px;
