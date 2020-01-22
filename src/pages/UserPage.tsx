@@ -3,8 +3,48 @@ import React from 'react';
 import styled from 'styled-components';
 import { useParams } from 'react-router-dom';
 import { useAxios } from '../lib/useAxios';
+import { Loading } from '../components/Loading';
 
 import { PostsListItem } from './PostsListItem';
+
+interface Response {
+  loading: boolean;
+  error: { code?: number; msg?: string };
+}
+
+// FIXME
+interface Post extends Response {
+  data: any;
+}
+
+interface Address {
+  street: string;
+  suite: string;
+  city: string;
+  zipcode: string;
+  geo: Geo;
+}
+interface Geo {
+  lat: string;
+  lng: string;
+}
+interface Company {
+  name: string;
+  catchPhrase: string;
+  bs: string;
+}
+interface Author extends Response {
+  data: {
+    id: number;
+    name: string;
+    username: string;
+    email: string;
+    address: Address;
+    phone: string;
+    website: string;
+    company: Company;
+  };
+}
 
 type PostState = {
   title: string;
@@ -21,46 +61,57 @@ export const UserPage: React.FC = () => {
   // eslint-disable-next-line prefer-const
   let { id } = useParams();
 
-  const { data: userData } = useAxios({
+  const author = {} as Author;
+  const posts = {} as Post;
+
+  ({ data: author.data, loading: author.loading, error: author.error } = useAxios({
     url: `/.netlify/functions/users-fetch-one/${id}`,
-  });
+  }));
 
   const url = {
     url: '/.netlify/functions/posts-fetch-all-mock',
   };
 
-  const { data: allposts, loading, error } = useAxios(url);
+  ({ data: posts.data, loading: posts.loading, error: posts.error } = useAxios({
+    url: '/.netlify/functions/posts-fetch-all-mock',
+  }));
+
+  // const { data: allposts, loading, error } = useAxios(url);
 
   // console.log(allposts);
 
-  let posts = null;
-  if (allposts) {
-    posts = allposts.filter((post: any) => post.userId === Number(id));
+  let userPosts = null;
+  if (posts.data) {
+    userPosts = posts.data.filter((post: any) => post.userId === Number(id));
+  }
+
+  if (posts.loading || author.loading) {
+    return <Loading />;
   }
 
   // console.log(posts);
 
   return (
     <StyledUser>
-      {userData ? (
+      {author.data ? (
         <>
           <div>
-            <h3>{userData.name}</h3>
+            <h3>{author.data.name}</h3>
 
             <ul>
               <li>
-                <i>Email:</i> {userData.email}
+                <i>Email:</i> {author.data.email}
               </li>
               <li>
-                <i>Website:</i> {`http://${userData.website}`}
+                <i>Website:</i> {`http://${author.data.website}`}
               </li>
             </ul>
           </div>
           <div className="users-posts">
             <hr />
-            <h5>Posts by {userData.name}</h5>
-            {posts &&
-              posts.map((post: any) => (
+            <h5>Posts by {author.data.name}</h5>
+            {userPosts &&
+              userPosts.map((post: any) => (
                 /* eslint-disable-next-line react/jsx-props-no-spreading */
                 <PostsListItem key={post.id} {...post} />
               ))}
