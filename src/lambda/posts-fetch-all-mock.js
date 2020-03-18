@@ -24,6 +24,7 @@ user request is 10-30 ms, so it makes sense that a full fetch of all info
 would be a few hundred MS
 */
 
+// Apparently if using netlify dev, I can just access URL from process.env.
 export const getBaseURL = host => {
   let baseURL;
   if (host === 'localhost:9000') {

@@ -110,7 +110,8 @@ export const UserPage: React.FC = () => {
               ))
             ) : (
               <>
-                <Loading />
+                {/* <Loading /> */}
+                Loading
               </>
             )}
           </div>
